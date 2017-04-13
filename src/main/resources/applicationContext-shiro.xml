@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-lazy-init="true">
+
+    <description>Shiro安全配置   来源于： http://shiro.apache.org/spring.html </description>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--  <property name="cacheManager" ref="shiroEhcacheManager"/>  -->
+	    <property name="realm" ref="shiroDbRealm" />
+	</bean>
+
+	<bean id="shiroDbRealm" class="com.populook.system.shiro.MonitorRealm" />
+	
+	<bean id="spermFilter" class="com.populook.system.shiro.PermissionFilter" />
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.jsp" />
+		<property name="successUrl" value="/main.jsp" />
+		<property name="unauthorizedUrl" value="/login.jsp" />
+		<property name="filters">
+			<map>
+				<entry key="sperm" value-ref="spermFilter"/> 
+			</map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/login.action*=anon
+				/login.jsp* = anon
+				/system/operator!selectPermissionByID.action* = authc
+				/*.jsp* = authc
+				/*.action* = authc
+				/**/*.action* = authc
+			</value>
+		</property>
+	</bean>
+	  
+     <!-- <bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+	</bean> -->
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+	    <property name="securityManager" ref="securityManager"/>
+	</bean>
+	
+</beans>

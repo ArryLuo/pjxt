@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%@ include file="/common/taglibs.jsp"%>
+<title>权限菜单管理</title>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/system/menu.js"></script>
+</head>
+<body>
+	<div id="toolbar" class="easyui-toolbar">
+		<a href="javascript:void(0)" class="easyui-linkbutton tadd" iconCls="icon-add" plain="true">新增</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton tmodify" iconCls="icon-edit" plain="true">修改</a>
+		<a href="javascript:void(0)" class="easyui-linkbutton tremove" iconCls="icon-remove" plain="true">删除</a>
+	</div>
+	<table id="menutab" class="easyui-datagrid">
+		<thead>
+			<tr>
+				<th data-options="field:'ck',checkbox:true"></th>
+				<th field="id" width="100" hidden="true">菜单ID</th>
+				<th field="menuName" width="150">菜单名称</th>
+				<th field="menuUrl" width="220">url</th>
+				<th field="icolcss" width="80">样式</th>
+				<th field="orders" width="80">顺序</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="dlg" class="easyui-dialog" closed="true" buttons="#dlg-buttons" style="width: 370px">
+		<form id="fm" method="post">
+			<input name="menus.id" type="hidden" />
+			<p>
+				<label>菜单名称:</label>
+				<input name="menus.menuName" type="text" class="easyui-validatebox" required="true" validType="length[1,50]" />
+			</p>
+			<p>
+				<label>url:</label>
+				<input name="menus.menuUrl" type="text" class="easyui-validatebox" validType="length[1,120]" />
+			</p>
+
+			<p>
+				<label>父菜单:</label>
+				<input id="selectText" name="menus.parentid" class="easyui-combotree" value="1" style="width: 180px; height: 28px" required="true" />
+			</p>
+			<p>
+				<label>样式:</label>
+				<input name="menus.icolcss" type="text" class="easyui-validatebox" validType="length[1,25]" />
+			</p>
+            <p>
+				<label>顺序:</label>
+				<input name="menus.orders" type="text" class="easyui-validatebox" validType="length[1,10]" />
+			</p>
+
+		</form>
+	</div>
+	<div id="dlg-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton btn btn-primary saveuser" iconCls="icon-ok">保存</a> 
+		<a href="javascript:void(0)" class="easyui-linkbutton btn btn-default closedlg" iconCls="icon-cancel">关闭</a>
+	</div>
+</body>
+</html>

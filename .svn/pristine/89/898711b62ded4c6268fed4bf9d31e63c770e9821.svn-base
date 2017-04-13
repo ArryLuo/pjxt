@@ -1,0 +1,27 @@
+package com.populook.system.service;
+
+import java.util.List;
+
+import com.populook.system.entity.RoleMenu;
+
+/**
+ * 角色menu操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RoleMenuService {
+	//添加角色menu
+	public void insertRoleMenu(RoleMenu roleMenu);
+	
+	//删除角色menu
+	public void deleteRoleMenuById(String role_id);
+	
+	//批量添加角色menu
+	public void batchInsertRoleMenu(List<RoleMenu> list);
+	
+	//批量添加角色menu
+	public void batchUpdateRoleMenu(List<RoleMenu> list);
+	
+	//批量删除角色ID
+	public void batchDeleteByroleid(List<RoleMenu> list);
+}

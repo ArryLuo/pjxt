@@ -1,0 +1,331 @@
+.window_cer { position:relative;
+    width: 1024px; height:700px;margin: 0 auto;
+}
+.window_cer_title {
+    line-height: 26px;
+    margin: 1px;
+    padding-left: 8px;
+    width: 780px;
+}
+.window_cer_title span {
+    display: block;
+}
+.win_cer_con {
+    height: 100%;
+    margin: 10px auto;
+    width: 100%; position:absolute; top:0; left:0; z-index:10
+}
+.win_cer_no {
+  	color: #000;
+    padding-right: 90px;
+    font-size: 20px;font-family: 微软雅黑;
+    padding-top: 120px;
+    text-align: right;
+}
+.win_cer_info {font-size:18px;font-family: 微软雅黑;
+    line-height: 50px;
+    margin: 0 auto;
+    width: 700px;
+    padding-top:20px;
+}
+.win_cer_info span {
+    border-bottom: 1px solid #000;
+    padding: 4px 16px;
+}
+.win_cer_name {
+    margin-left: 30px;
+}
+.win_title_head{
+	font-family: 微软雅黑;
+	font-size: 35px;
+	height: 70px;
+	line-height: 70px;
+	padding-top: 20px;
+	text-align: center;
+}
+.win_cer_time {font-family: 微软雅黑;font-size:16px;
+    line-height: 36px;
+    margin: 0 auto 0;
+    width: 896px;
+    padding-top:20px;
+}
+.win_cer_time span {
+    display: block;
+    margin-left: 560px;
+}
+.win_cer_no, .win_cer_info, .span, .win_cer_time span {
+    color: #000;
+}
+.btn_print, .btn_print02 {
+    background: url("../images/private/bg_btn_print.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 22px;
+    width: 52px;
+}
+.btn_print {
+    margin-bottom: 10px;
+    margin-left: 370px;
+}
+.btn_print02 {
+    display: block;
+    margin-bottom: 10px;
+}
+.btn_excel {
+    background: url("../images/private/bg_btn_excel.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    margin-left: 10px;
+    text-decoration: none;
+    width: 76px;
+}
+.btn_print03 {
+    background: url("../images/private/bg_btn_chax.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    margin-top: 0;
+    width: 52px;
+}
+.win_cer_con02 {
+    height: 568px;
+    margin: 10px auto;
+    width: 772px;
+}
+.win_printlistbtn {
+    margin: 10px auto;
+    text-align: center;
+    width: 150px;
+}
+.ser_step01:hover, .ser_step02:hover, .ser_step03:hover, .ser_step04:hover, .ser_step05:hover, .ser_step06:hover, .ser_commonser_con a:hover, .a_btn_asknow:hover, .ce_rules_fast_con a:hover, .ce_cf_center a:hover, .a_helpchoose:hover, .a_btn_gotopay:hover, .ce_cd_con_tabs a:hover, .a_ico_calender:hover, .ce_cert_btns a:hover, .a_more02:hover, .ce_card_nav a:hover, .a_card_regist:hover, .a_card_login:hover {
+    text-decoration: none !important;
+}
+.gaizhang{
+	width: 160px;
+  	height: 160px;
+  	position: absolute;
+  	z-index: 9;
+  	top: 410px;
+  	left: 660px;
+}
+
+
+@charset "utf-8";
+body {
+}
+.d-outer {
+    text-align: left;
+}
+.d-border, .d-dialog {
+    border: 0 none;
+    border-collapse: collapse;
+    margin: 0;
+    width: auto;
+}
+.d-nw, .d-n, .d-ne, .d-w, .d-c, .d-e, .d-sw, .d-s, .d-se, .d-header, .d-main, .d-footer {
+    padding: 0;
+}
+.d-header, .d-button {
+    font: 12px/1.11 'Microsoft Yahei',Tahoma,Arial,Helvetica,STHeiti;
+}
+.d-title {
+    cursor: default;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.d-state-noTitle .d-title {
+    display: none;
+}
+.bg_img{ position:absolute; left:0; top:10px; z-index:9;width: 100%;height: 100%;}
+
+.d-close {
+    display: block;
+    outline: medium none;
+    position: absolute;
+    text-decoration: none;
+}
+.d-close:hover {
+    text-decoration: none;
+}
+.d-main {
+    min-width: 9em;
+    text-align: center;
+    vertical-align: middle;
+}
+.d-content {
+    border: 0 none;
+    display: inline-block;
+    text-align: left;
+}
+.d-content.d-state-full {
+    display: block;
+    height: 100%;
+    margin: 0;
+    padding: 0 !important;
+    width: 100%;
+}
+.d-loading {
+    background: url("../images/private/loading.gif") no-repeat scroll center center rgba(0, 0, 0, 0);
+    height: 32px;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+    width: 96px;
+}
+.d-buttons {
+    padding: 8px;
+    text-align: right;
+    white-space: nowrap;
+}
+.d-button { line-height:2.2em;
+    background: -moz-linear-gradient(center top , #fff, #ddd) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #999;
+    border-radius: 5px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 -1px 0 rgba(0, 0, 0, 0.09);
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    letter-spacing: 2px;
+    margin-left: 15px;
+    min-height: 2.2em;
+    overflow: visible;
+    padding: 0 8px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 1);
+    transition: box-shadow 0.2s linear 0s;
+    width: auto;
+}
+.d-button::-moz-focus-inner, .d-button::-moz-focus-outer {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+.d-button:focus {
+    border-color: #426dc9;
+    box-shadow: 0 0 8px rgba(66, 109, 201, 0.9);
+    outline: 0 none;
+}
+.d-button:hover {
+    border-color: #666;
+    color: #000;
+}
+.d-button:active {
+    background: -moz-linear-gradient(center top , #ddd, #fff) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-color: #666;
+    box-shadow: 0 1px 5px rgba(66, 109, 201, 0.9) inset, 0 1px 1em rgba(0, 0, 0, 0.3) inset;
+}
+.d-button[disabled] {
+    background: none repeat scroll 0 0 #ddd;
+    border: 1px solid #999;
+    box-shadow: none;
+    color: #666;
+    cursor: default;
+    opacity: 0.5;
+}
+.d-state-highlight {
+	 background-color:#1c6a9e;
+	 line-height:2.2em;
+    background: -moz-linear-gradient(center top , #33bbee, #2288cc) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #1c6a9e;
+    color: #fff;
+    text-shadow: -1px -1px 1px #1c6a9e;
+}
+.d-state-highlight:hover {
+    border-color: #0f3a56;
+    color: #fff;
+}
+.d-state-highlight:active {
+    background: -moz-linear-gradient(center top , #33bbee, #2288cc) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-color: #1c6a9e;
+}
+.d-mask {
+    background: none repeat scroll 0 0 #000;
+    opacity: 0.7;
+}
+.d-inner {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #666;
+}
+.d-nw, .d-ne, .d-sw, .d-se {
+    height: 3px;
+    width: 3px;
+}
+.d-nw, .d-n, .d-ne, .d-w, .d-e, .d-sw, .d-s, .d-se {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.05);
+}
+.d-titleBar {
+    height: 100%;
+    position: relative;
+}
+.d-title {
+    font-size: 0;
+    height: 24px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    text-indent: -9999em;
+    top: 0;
+    width: 100%;
+}
+.d-state-drag .d-title {
+    color: #666;
+}
+.d-close {
+    color: #214fa3;
+    font-family: Helvetica,STHeiti;
+    font-size: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0;
+    right: 0;
+    text-align: center;
+    text-decoration: none;
+    top: 0;
+    width: 18px;
+}
+.d-close:hover, .d-close:active {
+    color: #900;
+    text-decoration: none;
+}
+.d-content {
+    color: #666;
+}
+.d-state-focus .d-content {
+    color: #000;
+}
+@media screen and (min-width: 0px) {
+.d-close {
+    background: none repeat scroll 0 0 #999;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    height: 20px;
+    line-height: 20px;
+    right: -10px;
+    top: -10px;
+    transition: all 0.06s linear 0s;
+    width: 20px;
+}
+.d-close:hover {
+    background: none repeat scroll 0 0 #d1282a;
+    border-radius: 24px;
+    box-shadow: 0 1px 3px rgba(209, 40, 42, 0.5);
+    color: #fff;
+    height: 24px;
+    line-height: 24px;
+    right: -12px;
+    top: -12px;
+    width: 24px;
+}
+.d-state-lock .d-dialog {
+    box-shadow: 0 3px 26px rgba(0, 0, 0, 0.9);
+    transition: -webkit-box-shadow 0.2s linear 0s;
+}
+.d-dialog:active {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1) !important;
+}
+.d-state-drag {
+    box-shadow: none !important;
+}
+}
+

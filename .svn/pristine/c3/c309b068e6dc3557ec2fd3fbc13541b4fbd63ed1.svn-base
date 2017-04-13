@@ -1,0 +1,129 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.dao.RoleDao;
+import com.populook.system.entity.Permission;
+import com.populook.system.entity.Role;
+
+
+/**
+ * 角色操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleDao")
+public class RoleDaoImpl extends BaseDaoSupport implements RoleDao{
+	@Resource
+	private SqlSessionFactory sqlSessionFactory;
+	
+	@PostConstruct
+	public void initSqlMapClient() {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
+	
+	/**
+	 * 添加角色
+	 * @param Role 角色
+	 * @return void
+	 */
+	@Override
+	public void insertRole(Role role) {
+		getSqlSession().insert("RoleMapper.insertRole", role);
+	}
+	
+	/**
+	 * 修改角色
+	 * @param role 角色 
+	 * @return void
+	 */
+	@Override
+	public void updateRole(Role role) {
+		getSqlSession().update("RoleMapper.updateRole", role);
+	}
+	
+	/**
+	 * 删除角色
+	 * @param role 角色 
+	 * @return void
+	 */
+	@Override
+	public void deleteRoleById(String id) {
+		getSqlSession().delete("RoleMapper.deleteRoleById", id);
+	}
+	
+	/**
+	 * 根据条件查询角色
+	 * @param role 角色 
+	 * @return List<Role>
+	 */
+	@Override
+	public List<Role> selectRoleByInfo(Map<String,Object> map) {
+		return getSqlSession().selectList("RoleMapper.selectRoleByInfo", map);
+	}
+	
+	/**
+	 * 查询所有角色信息
+	 * @return List<Role>
+	 */
+	@Override
+	public List<Role> getRoleAll(Map<String,Object> param,Pagination pager) {
+		param.put("pageFrom", pager.getPage()*pager.getRows());
+		param.put("pageTo", pager.getRows());
+		return getSqlSession().selectList("RoleMapper.selectRole",param);
+	}
+	
+	/**
+	 * 查询角色个数
+	 * @return List<Role>
+	 */
+	@Override
+	public int selectRoleCount(Map<String,Object> param) {
+		return (Integer)this.getSqlSession().selectOne("RoleMapper.selectRoleCount", param);
+	}
+	
+	/**
+	 * 查询不是根节点的菜单
+	 * @return List<Menu>
+	 */
+	@Override
+	public List<Permission> selectallMenu() {
+		return getSqlSession().selectList("RoleMapper.selectallMenu");
+	}
+	
+	/**
+	 * 根据角色ID查询角色菜单
+	 * @param roleid 角色ID
+	 * @return List<Menu>
+	 */
+	@Override
+	public List<Permission> getroleTree(String roleid) {
+		return getSqlSession().selectList("RoleMapper.getroleTree",roleid);
+	}
+	
+	/**
+	 * 批量删除菜单
+	 * @param list 角色菜单集合
+	 * @return void
+	 */
+	@Override
+  	public void batchDeleteRole(List<Role> list) {
+  		 getSqlSession().selectList("RoleMapper.batchDeleteRole",list);
+  	}
+
+	@Override
+	public CommonResult selectRolePage(Role role, Pagination pager) {
+		return this.queryForPagination("RoleMapper", pager, role);
+	}
+	
+}

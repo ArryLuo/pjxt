@@ -1,0 +1,52 @@
+package com.populook.system.entity;
+
+public class RolePermission implements java.io.Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	
+	private String roleId;
+	
+	private String permissionId;
+
+	public RolePermission() {
+		super();
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the roleId
+	 */
+	public String getRoleId() {
+		return roleId;
+	}
+
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public String getPermissionId() {
+		return permissionId;
+	}
+
+	public void setPermissionId(String permissionId) {
+		this.permissionId = permissionId;
+	}
+	
+}

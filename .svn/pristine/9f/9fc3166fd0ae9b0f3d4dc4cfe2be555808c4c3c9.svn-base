@@ -1,0 +1,92 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.dao.MenuDao;
+import com.populook.system.entity.Menu;
+/**
+ * 菜单操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("menuDao")
+public class MenuDaoImpl extends BaseDaoSupport implements MenuDao{
+	
+	@Resource
+	 private SqlSessionFactory sqlSessionFactory;
+	
+	 @PostConstruct
+	 public void initSqlMapClient() {
+	 super.setSqlSessionFactory(sqlSessionFactory);
+	 }
+	
+	 protected SqlSessionFactory getSqlSessionFactory(){
+	 return this.sqlSessionFactory;
+	 }
+	 
+	 @Override
+	public void insertMenu(Menu menu) {
+		getSqlSession().insert("MenuMapper.insertMenu", menu);
+	}
+	
+	@Override
+	public void updateMenu(Menu menu) {
+		getSqlSession().update("MenuMapper.updateMenu", menu);
+	}
+	
+	/**
+	 * 删除菜单
+	 * @param id 菜单ID
+	 * @return void
+	 */
+	@Override
+	public void deleteMenuById(String id) {
+		getSqlSession().delete("MenuMapper.deleteMenuById",id);
+	}
+	
+	/**
+	 * 查询菜单列表
+	 * @return void
+	 */
+	@Override
+	public List<Menu> selectMenu(Menu menu) {
+		return getSqlSession().selectList("MenuMapper.selectList",menu);
+	}
+	
+	/**
+	 * 查询条数
+	 * @param param 查询参数
+	 * @return int
+	 */
+	@Override
+	public int selectMenuCount(Menu menu) {
+		return 10;
+	}
+	
+	/**
+	 * 批量添加系统用户
+	 * @param id 系统用户ID
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteMenu(List<Menu> list) {
+		getSqlSession().delete("MenuMapper.batchDeleteMenu",list);
+	}
+
+	@Override
+	public CommonResult selectMenuPage(Menu menu,
+			Pagination pager) {
+		return this.queryForPagination("MenuMapper", pager, menu);
+	}
+	
+
+}

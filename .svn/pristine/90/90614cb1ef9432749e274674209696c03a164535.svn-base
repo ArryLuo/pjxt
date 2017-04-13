@@ -1,0 +1,106 @@
+package com.populook.system.action;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+
+import com.populook.framework.action.PageAction;
+import com.populook.system.entity.Menu;
+import com.populook.system.service.MenuService;
+/**
+ * 权限管理里的菜单
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Namespace("/system")
+@ParentPackage(value="default")
+public class MenuAction extends PageAction {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7698632554552927238L;
+
+	@Resource
+	private MenuService menuService;
+	
+	
+	private Menu menus;
+	
+	
+	private String id;
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public Menu getMenus() {
+		return menus;
+	}
+
+	public void setMenus(Menu menus) {
+		this.menus = menus;
+	}
+	
+	/**
+	 * 添加或者修改菜单
+	 * @return void
+	 */
+	public String operatorMenu() throws Exception {
+		if("".equals(menus.getId()) || menus.getId() == null) {
+			menus.setId(UUID.randomUUID().toString().replace("-", ""));
+	        this.menuService.insertMenu(menus);
+		} else {
+			 this.menuService.updateMenu(menus);
+		}
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	}
+
+	/**
+	 * 查询菜单并分页
+	 * @return void
+	 */
+	public String getMenu() throws Exception {
+		this.commonResult=this.menuService.selectMenu(menus, pager);
+		return COMMONJSON;
+	}
+	
+	/**
+	 * 返回菜单页面
+	 * @return void
+	 */
+	public String menu() {
+		return "menu";
+	}
+	
+	/**
+	 * 批量删除菜单
+	 * @return void
+	 */
+	public String batchDeleteMenu() throws Exception {
+		String[] ids = id.split(",");
+		List<Menu> list = new ArrayList<Menu>();
+		for(int i = 0; i < ids.length; i++) {
+			Menu menu = new Menu();
+			menu.setId(ids[i]);
+			list.add(menu);
+		}
+		this.menuService.batchDeleteMenu(list);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	}
+	
+	
+  
+}

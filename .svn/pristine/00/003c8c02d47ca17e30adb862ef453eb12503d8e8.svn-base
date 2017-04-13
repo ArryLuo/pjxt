@@ -1,0 +1,90 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.system.dao.OperatorRoleDao;
+import com.populook.system.entity.OperatorRole;
+
+/**
+ * 角色关联操作DAO
+ * 
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("operatorRoleDao")
+public class OperatorRoleDaoImpl extends BaseDaoSupport implements
+		OperatorRoleDao {
+	@Resource
+	private SqlSessionFactory sqlSessionFactory;
+
+	@PostConstruct
+	public void initSqlMapClient() {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
+
+	protected SqlSessionFactory getSqlSessionFactory() {
+		return this.sqlSessionFactory;
+	}
+
+	/**
+	 * 添加系统角色关联
+	 * 
+	 * @param OperatorRole
+	 *            角色关联
+	 * @return void
+	 */
+	@Override
+	public void insertOperatorRole(OperatorRole operatorRole) {
+		getSqlSession().insert("OperatorMapper.insertOperator", operatorRole);
+	}
+
+	/**
+	 * 删除系统角色关联
+	 * 
+	 * @param OperatorRole
+	 *            角色关联
+	 * @return void
+	 */
+	@Override
+	public void deleteOperatorRoleById(String operator_id) {
+		getSqlSession().insert("OperatorMapper.deleteOperatorRoleById",
+				operator_id);
+	}
+
+	/**
+	 * 批量删除系统角色关联
+	 * 
+	 * @param list
+	 *            角色关联集合
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteOpeRole(List<OperatorRole> list) {
+		getSqlSession().delete("OperatorRoleMapper.batchDeleteOpeRole", list);
+	}
+
+	/**
+	 * 批量添加系统角色关联
+	 * 
+	 * @param list
+	 *            角色关联集合
+	 * @return void
+	 */
+	@Override
+	public void batchInsertOperatorRole(List<OperatorRole> list) {
+		getSqlSession().insert("OperatorRoleMapper.batchInsertOperatorRole",
+				list);
+	}
+
+	@Override
+	public List<OperatorRole> findOperatorRoleList() {
+		return this.getSqlSession().selectList("OperatorRoleMapper.selectOperatorRoleList");
+	}
+}

@@ -1,0 +1,47 @@
+package com.populook.system.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.populook.framework.dao.BaseDao;
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.entity.Permission;
+import com.populook.system.entity.Role;
+/**
+ * 角色操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RoleDao extends BaseDao {
+   
+	//添加角色
+	public void insertRole(Role role);
+	
+	//修改角色
+	public void updateRole(Role role);
+	
+	//删除角色
+	public void deleteRoleById(String id);
+	
+	//根据条件查询具体的角色信息
+	public List<Role> selectRoleByInfo(Map<String,Object> map);
+	
+	//查询所有的角色信息
+	public List<Role> getRoleAll(Map<String,Object> param,Pagination pager);
+	
+	//查询总条数
+    public int selectRoleCount(Map<String,Object> param);
+    
+    //查询不是根节点的菜单
+	public List<Permission> selectallMenu();
+	
+	//根据角色ID查询角色菜单
+	public List<Permission> getroleTree(String roleid);
+	
+	//批量删除角色
+  	public void batchDeleteRole(List<Role> list);
+
+	public CommonResult selectRolePage(Role role, Pagination pager);
+	
+}

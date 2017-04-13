@@ -1,0 +1,81 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.system.dao.RoleMenuDao;
+import com.populook.system.entity.RoleMenu;
+
+/**
+ * 角色menu操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleMenuDao")
+public class RoleMenuDaoImpl extends BaseDaoSupport implements RoleMenuDao{
+	
+	@Resource
+	private SqlSessionFactory sqlSessionFactory;
+	
+	@PostConstruct
+	public void initSqlMapClient() {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
+	/**
+	 * 添加角色menu
+	 * @param RoleMenu 角色menu
+	 * @return void
+	 */
+	@Override
+	public void insertRoleMenu(RoleMenu roleMenu) {
+		getSqlSession().insert("RoleMenuMapper.insertRoleMenu",roleMenu);
+	}
+	
+	/**
+	 * 删除角色menu
+	 * @param RoleMenu 角色menu
+	 * @return void
+	 */
+	@Override
+	public void deleteRoleMenuById(String role_id) {
+		getSqlSession().delete("RoleMenuMapper.deleteRoleMenuById",role_id);
+	}
+	
+	/**
+	 * 批量添加角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	@Override
+	public void batchInsertRoleMenu(List<RoleMenu> list) {
+		getSqlSession().insert("RoleMenuMapper.batchInsertRoleMenu",list);
+	}
+	
+	/**
+	 * 批量更新角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	@Override
+	public void batchUpdateRoleMenu(List<RoleMenu> list) {
+		getSqlSession().update("RoleMenuMapper.batchUpdateRoleMenu",list);
+	}
+	
+	/**
+	 * 批量删除角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteByroleid(List<RoleMenu> list) {
+		getSqlSession().delete("RoleMenuMapper.batchDeleteByroleid",list);
+	}
+	
+
+}

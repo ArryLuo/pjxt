@@ -1,0 +1,62 @@
+package com.populook.system.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.system.dao.RoleOpeDao;
+import com.populook.system.entity.Roleope;
+import com.populook.system.service.RoleOpeService;
+
+/**
+ * 功能权限Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleOpeService")
+public class RoleOpeServiceImpl implements RoleOpeService{
+	@Resource
+	private RoleOpeDao roleOpeDao;
+	
+	
+	/**
+	 * 添加功能权限
+	 * @param roleope 功能权限
+	 * @return void
+	 */
+	public void insertRoleOpe(Roleope roleope) {
+		this.roleOpeDao.insertRoleOpe(roleope);
+	}
+	
+	
+	
+	/**
+	 * 批量添加功能权限
+	 * @param list 功能权限集合
+	 * @return void
+	 */
+	public void batchInsertRoleOpe(List<Roleope> list) {
+		this.roleOpeDao.batchInsertRoleOpe(list);
+	}
+	
+	/**
+	 * 批量更新功能权限
+	 * @param list 功能权限集合
+	 * @return void
+	 */
+	public void batchUpdateRoleOpe(List<Roleope> list) {
+		this.roleOpeDao.batchUpdateRoleOpe(list);
+	}
+	
+	/**
+	 * 批量删除功能权限
+	 * @param list 功能权限集合
+	 * @return void
+	 */
+	public void batchDeleteopeByid(List<Roleope> list) {
+		this.roleOpeDao.batchDeleteopeByid(list);
+	}
+
+}

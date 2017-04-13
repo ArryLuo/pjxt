@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoleMenuMapper">
+
+	<resultMap type="RoleMenu" id="RoleMenuMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="menu_id" property="menuId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,role_id,menu_id
+	</sql>
+
+
+	<!-- 查询所有角色menu -->
+	<select id="selectRoleMenu" resultMap="RoleMenuMap">
+		select
+		<include refid="Base_Column_List" />
+		from ROLEMENU
+	</select>
+   
+	
+
+   <!-- 添加角色menu -->
+   <insert id="insertRoleMenu" parameterType="Menu">
+		insert into
+		ROLEMENU(id,role_id,menu_id) values(
+		#{id,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR},#{menuId,jdbcType=VARCHAR}
+		)  
+  </insert>
+  
+   <!-- 批量添加角色menu -->
+  <insert id="batchInsertRoleMenu" parameterType="java.util.List">
+		insert into
+		ROLEMENU(id,role_id,menu_id) 
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR},#{item.menuId,jdbcType=VARCHAR}
+			)  
+        </foreach>
+  </insert>
+    
+
+
+  <!-- 删除单个角色menu -->
+  <delete id="deleteRoleMenuById" parameterType="java.lang.String">
+		delete from ROLEMENU
+		where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+
+ 
+  
+   <!-- 批量删除角色menu-->
+ <delete id="batchDeleteByroleid" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from ROLEMENU where role_id in   
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.roleId}   
+    </foreach>
+ </delete>
+ 
+ 
+ 
+ 
+ 
+</mapper>

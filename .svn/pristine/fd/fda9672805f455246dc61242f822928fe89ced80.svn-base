@@ -1,0 +1,263 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%@ include file="/common/taglibs.jsp"%>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wWy2A8K94nhntYTYUHS19RXW"></script>
+    <title>管理</title>
+<script type="text/javascript">
+    $(function () {
+        var $datatab = $("#datatab");   //表格jquery对戏那个
+        var $dlg = $("#dlg");           //新增和修改的对话框jquery对象
+        var $fm = $("#fm");             //新增和修改中的表单jquery对象
+        
+        init();
+         
+        function search(){
+    		loadDataGrid({
+    			datagridObj : $datatab,
+    			searchFormObj : $("#searchForm"),
+    			url : path + "/transportation/carparking!selectPage.action",
+    			original : {
+    				toolbar : "#toolbar"
+    			}
+    		});
+        }
+        
+        //查询
+    	$("#tb_search").click(function() {
+    		search();
+    	});
+    	
+        //初始化表格
+        search();
+
+        //增加
+        $("#toolbar .tadd").click(function () {
+            addItem({
+                obj_dialog: $dlg,
+                obj_form: $fm,
+                title: "新增"
+            });
+        });
+
+        //修改
+        $("#toolbar .tmodify").click(function () {
+            modifyItem({
+                obj_datagrid: $datatab,
+                obj_dialog: $dlg,
+                obj_form: $fm,
+                title: "修改",
+                formname:"carshot"
+            });
+            
+        });
+
+        //删除
+        $("#toolbar .tremove").click(function () {
+            deleteItem({
+                obj_datagrid: $datatab,
+                title: "删除",
+                url_delete: path+"/transportation/carparking!batchDelete.action",
+                url_reload: path+"/transportation/carparking!selectPage.action"
+            });
+        });
+        
+        //地图        
+         $("#toolbar .video").click(function () {
+        	 var rows=$datatab.datagrid("getData").rows;
+        	 map(rows);        	 
+        	 $('#mapbox').window('open');
+        });
+
+        //保存数据
+        $("#dlg-buttons .save").click(function () {
+        	saveItem({
+    			obj_datagrid : $datatab,
+    			obj_dialog : $dlg,
+    			obj_form : $fm,
+    			url_add : path + "/transportation/carparking!save.action",
+    			url_reload : path + "/transportation/carparking!selectPage.action"
+    		});
+        	 
+        });
+
+        //关闭对话框
+        $("#dlg-buttons .closedlg").click(function () {
+            //关闭对话框
+            $dlg.dialog("close");
+        });
+
+    });
+    
+    
+    function init() {
+    	$('#datatab').datagrid({
+	    	columns:[[
+                {field :'ck',checkbox : true},
+	    	    {field:'number',title:'车牌号',width:100},
+	    	    {field:'collecttime',title:'采集时间',width:130},
+	    	    {field:'pictureone',title:'小图',width:100,
+	    	    	formatter: function(value,row,index){
+	    	    		  return "<img src='"+ value +"'/>";
+			        }
+	    	    },
+	    	    {field:'picturetwo',title:'对比小图',width:100,
+	    	    	formatter: function(value,row,index){
+	    	    		return "<img src='"+ value +"'/>";
+			        }
+	    	    },
+	    	    {field:'bigpictureone',title:'大图',width:60,
+	    	    	formatter: function(value,row,index){
+    				           return  "<a href='javacript:'>查看图片</a>";
+    			    }
+	    	    },
+	    	    {field:'bigpicturetwo',title:'对比大图',width:70,
+	    	    	formatter: function(value,row,index){
+    				           return  "<a href='javacript:'>查看图片</a>";
+    			    }
+	    	    },
+	    	    {field:'videoone',title:'视频',width:60,
+	    	    	formatter: function(value,row,index){
+    				           return  "<a href='javacript:'>查看视频</a>";
+    			    }
+	    	    },
+	    	    {field:'videotwo',title:'对比视频',width:70,
+	    	    	formatter: function(value,row,index){
+    				           return  "<a href='javacript:'>查看视频</a>";
+    			    }
+	    	    },
+	    	    /* {field:'longitudeone',title:'经度',width:60},
+	    	    {field:'latitudeone',title:'纬度',width:60},
+	    	    {field:'longitudetwo',title:'对比经度',width:60},
+	    	    {field:'latitudetwo',title:'对比纬度',width:60}, */
+	    	    {field:'carterminalnoone',title:'对比终端',width:150},
+	    	    {field:'carterminalnotwo',title:'对比终端',width:150}
+	    	]]
+	    });
+      };
+    
+    
+    //大图
+ 	function aa(obj1,obj2) {
+ 		  $.ajax({
+ 	    	    url:'http://aaceshi.aabang.me/Tachograph/push/pushMsgToSingleDevice.do',
+ 	    	    type:'POST', //GET
+ 	    	    async:true,    //或false,是否异步
+ 	    	    data:{id:obj1,type:"bigpicture",channelId:obj2},
+ 	    	    timeout:5000,    //超时时间
+ 	    	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	  
+ 	    	    success:function(data){       
+ 	    	    	 if(data.success){
+ 	    	    		   var url=data.src;
+ 	    	    		   $("#pictureimg").attr('src',url);
+ 	    	    		   $('#panimage').window('open');		    	    	  
+ 	    	    	}else{
+ 	    	    		alert("实时视频播放失败！！");
+ 	    	    	};	       
+ 	    	   }
+ 	        });
+    };
+    
+  //历史视频
+ 	function bb(obj1,obj2) {
+ 		  $.ajax({
+ 	    	    url:'http://aaceshi.aabang.me/Tachograph/push/pushMsgToSingleDevice.do',
+ 	    	    type:'POST', //GET
+ 	    	    async:true,    //或false,是否异步
+ 	    	    data:{id:obj1,type:"video",channelId:obj2},
+ 	    	    timeout:5000,    //超时时间
+ 	    	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	  
+ 	    	    success:function(data){       
+ 	    	    	 if(data.success){
+ 	    	    		   var url=data.src;
+ 	    	    		   $("#videomp4").attr('src',url);	
+ 	    	    		   $('#w').window('open');
+ 	    	    	}else{
+ 	    	    		alert("历史视频播放失败！！");
+ 	    	    	};	       
+ 	    	   }
+ 	        });
+    };
+    
+    function map(rows){
+	   	 var map = new BMap.Map("mapbox");
+	   	 map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+	     map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+	   	 var myIcon =BMap.Icon('http://developer.baidu.com/map/jsdemo/img/car.png', new BMap.Size(52,26));   
+	     
+	   	 var chartData = [];
+	   	 for (var i = 0, l = rows.length; i < l; i++) {
+	   		     var point =new BMap.Point(rows[i].longitudeone, rows[i].latitudeone);
+	   		     if(i == 0){
+	   		    	 map.centerAndZoom(point, 12); 
+	   		     }
+	   		     var m1 = new BMap.Marker(point,{icon:myIcon});
+	   		     
+		   		 var infoWindow = new BMap.InfoWindow(rows[i].number,{enableMessage:false,width:30,height:20});
+	             m1.addEventListener("click", function ()
+	             {
+	                  this.openInfoWindow(infoWindow);
+	             });
+	   		     map.addOverlay(m1);
+	   		     
+	   		    var lab1 = new BMap.Label(i + 1, { position: point, offset: new BMap.Size(-10, -25) });
+	            lab1.setStyle({color:"#fff",fontSize:"16px",backgroundColor:"0.05",border:"0",fontWeight:"bold"});
+	            map.addOverlay(lab1);
+				chartData.push(point);
+		 }
+	   	 
+	   	var polyline = new BMap.Polyline(chartData, { strokeColor: "red", strokeWeight: 2, strokeOpacity: 1 });
+        map.addOverlay(polyline); 
+  }
+</script>    
+</head>
+<body class="pl20" style="padding-top: 20px;">
+      <form id="searchForm">
+		  <table class="search_table">
+				<tr>
+					<td width="240">
+					     <label for="inputText">车牌：</label> 
+						 <input id="inputText" class="input-hasValue" value="" name="carparking.number"  style="width:170px;height:24px;"/> 
+					</td>
+					<td width="500" style=" text-alige:left;">
+					      <label for="inputText">查询时间：</label> 
+					      <input id="inputText" class="easyui-datetimebox" value="" name="carparking.starttime"  style="width:170px;height:24px;"/> 
+					
+						  <label for="inputText">——</label> 
+						  <input id="inputText" class="easyui-datetimebox" value="" name="carparking.endtime"  style="width:170px;height:24px;"/> 
+						 
+					</td>
+					<td>
+					    <a href="javascript:void(0)" class="easyui-linkbutton btn btn-primary tb_search" id="tb_search" iconCls="icon-search">查询</a>
+				    </td>
+				</tr>
+		  </table>
+	 </form>
+    <div id="toolbar" class="easyui-toolbar">
+	    <div>   
+	     	<a href="javascript:void(0)" class="easyui-linkbutton video" iconCls="icon-edit" plain="true">查看地图</a> 
+	     	<a href="javascript:void(0)" class="easyui-linkbutton tremove" iconCls="icon-remove" plain="true">删除</a>           
+	    </div>
+   </div>
+<table id="datatab" class="easyui-datagrid">
+</table>
+
+<div id="panimage" class="easyui-window" title="全景大图" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:1000px;height:500px;padding:10px;">
+     <div class="pic-image">
+        <img id='pictureimg' src="${pageContext.request.contextPath}/images/bigpicture/001.bmp" />
+       </div>   
+</div>
+
+<div id="w" class="easyui-window" title="视频窗口" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:720px;height:500px;padding:10px;">
+ <video id="videomp4" src=""  width="700" height="430" controls autoplay>
+ <source type=video/mp4 />
+ Your browser does not support the video tag.
+ </video>
+</div>
+ <div id="mapbox" class="easyui-window" title="查看地图" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:1050px;height:500px;">
+ </div>
+</body>
+</html>

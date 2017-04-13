@@ -1,0 +1,28 @@
+package com.populook.system.service;
+
+import java.util.List;
+import java.util.Map;
+
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.entity.Menu;
+
+public interface MenuService {
+	//添加菜单
+	public void insertMenu(Menu menu);
+	
+	//修改菜单
+	public void updateMenu(Menu menu);
+	
+	//删除菜单
+	public void deleteMenuById(String id);
+	
+	//查询所有菜单
+	public CommonResult selectMenu(Menu menu,Pagination pager);
+	
+	//查询总条数
+	public int selectMenuCount(Menu menu);
+	
+	//批量删除菜单
+    public void batchDeleteMenu(List<Menu> list);
+}

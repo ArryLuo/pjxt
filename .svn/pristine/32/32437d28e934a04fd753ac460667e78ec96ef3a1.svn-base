@@ -1,0 +1,15 @@
+body{margin:0;width:100%;height:auto; font-size:12px;  font-family:微软雅黑; background:url(../images/body_bg_01.png) repeat-x top; height:728px;}
+.main{ background:url(../images/main_bg.jpg) no-repeat top center; width:1002px; height:728px; margin:0 auto} 
+.login{ border-collapse:collapse; border-spacing:0; margin:285px 0 0 335px; padding:0; float:left;display: inline;}
+.login td{ padding:6px; color:#ccf8ff; font-size:14px;}
+.user_name,.password{ float:left; width:240px; height:24px; line-height:24px; text-indent:5px; border:1px solid #556C7E}
+.login_btn,.reset_btn{ background:url(../images/bnt.png) no-repeat; width:120px; height:40px; line-height:40px; text-align:center; border:none; margin:0; padding:0; color:#285f97; font-weight:bold; float:left; cursor:pointer}
+
+
+
+
+
+
+
+
+

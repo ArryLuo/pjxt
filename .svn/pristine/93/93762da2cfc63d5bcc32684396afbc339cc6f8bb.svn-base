@@ -1,0 +1,89 @@
+package com.populook.system.entity;
+
+public class Roleope implements java.io.Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	
+	private String allitem;
+	
+	private String roleId;
+	
+	private String menuId;
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the allitem
+	 */
+	public String getAllitem() {
+		return allitem;
+	}
+
+	/**
+	 * @param allitem the allitem to set
+	 */
+	public void setAllitem(String allitem) {
+		this.allitem = allitem;
+	}
+
+	/**
+	 * @return the roleId
+	 */
+	public String getRoleId() {
+		return roleId;
+	}
+
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	/**
+	 * @return the menuId
+	 */
+	public String getMenuId() {
+		return menuId;
+	}
+
+	/**
+	 * @param menuId the menuId to set
+	 */
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+
+	/**
+	 * @param id
+	 * @param allitem
+	 * @param roleId
+	 * @param menuId
+	 */
+	public Roleope(String id, String allitem, String roleId, String menuId) {
+		super();
+		this.id = id;
+		this.allitem = allitem;
+		this.roleId = roleId;
+		this.menuId = menuId;
+	}
+
+	public Roleope() {
+		super();
+	}
+
+}

@@ -1,0 +1,72 @@
+package com.populook.system.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.system.dao.RolePermissionDao;
+import com.populook.system.entity.RolePermission;
+import com.populook.system.service.RolePermissionService;
+
+/**
+ * 菜单permission操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("rolePermissionService")
+public class RolePermissionServiceImpl implements RolePermissionService{
+	
+	@Resource
+	private RolePermissionDao rolePermissionDao;
+	
+	/**
+	 * 添加菜单permission
+	 * @param rolePermission 菜单permission
+	 * @return void
+	 */
+	public void insertRolePermission(RolePermission rolePermission) {
+		this.rolePermissionDao.insertRolePermission(rolePermission);
+	}
+	
+	/**
+	 * 删除角色permission
+	 * @param id 菜单permissionID
+	 * @return void
+	 */
+	public void deleteRolePermissionById(String role_id) {
+		this.rolePermissionDao.deleteRolePermissionById(role_id);
+	}
+	
+	/**
+	 * 批量添加角色permission
+	 * @param List<RolePermission> 角色permission集合
+	 * @return void
+	 */
+	public void batchInsertRolePermission(List<RolePermission> list) {
+		this.rolePermissionDao.batchInsertRolePermission(list);
+	}
+	
+	/**
+	 * 批量更新角色permission
+	 * @param List<RolePermission> 角色permission集合
+	 * @return void
+	 */
+	public void batchUpdateRolePermission(List<RolePermission> list) {
+		this.rolePermissionDao.batchUpdateRolePermission(list);
+	}
+	
+	/**
+	 * 批量删除角色permission
+	 * @param List<RolePermission> 角色permission集合
+	 * @return void
+	 */
+	public void batchDeleteByroleid(List<RolePermission> list) {
+		this.rolePermissionDao.batchDeleteByroleid(list);
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.action.extension" value="action" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.convention.result.path" value="/WEB-INF/views" />
+	<!-- 允许最大文件50M -->
+	<constant name="struts.multipart.maxSize" value="52428800"/>
+	<package name="default" extends="struts-default,spring-default,json-default">
+		<result-types>
+			<!-- 操作结果提示跳转 -->
+			<result-type name="mock"
+				class="com.opensymphony.xwork2.mock.MockResult" />
+		</result-types>
+		
+		<interceptors>
+			<interceptor name="shiroIntercepter"
+				class="com.populook.system.shiro.ShiroInterceptor" />
+				
+			<interceptor-stack name="edu">
+				<interceptor-ref name="json"/>
+				<!-- 把default stack复制过来，并配置其中的Exception拦截器，解决异常不打日志的问题 -->
+				<interceptor-ref name="exception">
+                  <param name="logEnabled">true</param>
+                  <param name="logCategory">com.populook.edu-manage.unhandled</param>
+                  <param name="logLevel">WARN</param>	
+				</interceptor-ref>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="scopedModelDriven"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="debugging"/>
+				<interceptor-ref name="shiroIntercepter" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="edu" />
+
+		<global-results>
+			<result type="json" name="commonJson">
+				<param name="root">commonResult</param>
+				<param name="excludeNullProperties">true</param>
+				<param name="enableGZIP">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+			<!-- caiwenhong add -->
+			<result type="json" name="json2">
+				<param name="root">result2</param>
+				<param name="excludeNullProperties">true</param>
+				<param name="enableGZIP">true</param>
+			</result>
+			<result type="stream" name="download">
+				<param name="contentType">${downloadContentType}</param>
+				<param name="inputName">downloadStream</param>
+				<param name="contentDisposition">attachment;filename="${downloadFilename}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+			<result name="exception">/common/struts2Exception.jsp</result>
+		</global-results>
+		
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception" />
+		</global-exception-mappings>
+	</package>
+
+</struts> 

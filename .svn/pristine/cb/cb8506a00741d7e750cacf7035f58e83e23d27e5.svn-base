@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RolePermissionMapper">
+
+	<resultMap type="RolePermission" id="RolePermissionMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="permission_id" property="permissionId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,role_id,permission_id
+	</sql>
+
+
+	<!-- 查询所有角色permission -->
+	<select id="selectRolePermission" resultMap="RolePermissionMap">
+		select
+		<include refid="Base_Column_List" />
+		from ROLEPERMISSION
+	</select>
+   
+	
+
+   <!-- 添加角色permission -->
+   <insert id="insertRolePermission" parameterType="Permission">
+		insert into
+		ROLEPERMISSION(id,role_id,permission_id) values(
+		#{id,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR},#{permissionId,jdbcType=VARCHAR}
+		)  
+  </insert>
+  
+   <!-- 批量添加角色permission -->
+  <insert id="batchInsertRolePermission" parameterType="java.util.List">
+		insert into
+		ROLEPERMISSION(id,role_id,permission_id) 
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR},#{item.permissionId,jdbcType=VARCHAR}
+			)  
+        </foreach>
+  </insert>
+    
+
+
+  <!-- 删除单个角色permission -->
+  <delete id="deleteRolePermissionById" parameterType="java.lang.String">
+		delete from ROLEPERMISSION
+		where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+
+   <!-- 批量删除角色permission-->
+ <delete id="batchDeleteByroleid" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from ROLEPERMISSION where role_id in   
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.roleId}   
+    </foreach>
+ </delete>
+ 
+ 
+</mapper>

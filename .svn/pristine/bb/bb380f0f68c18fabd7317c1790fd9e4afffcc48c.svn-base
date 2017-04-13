@@ -1,0 +1,28 @@
+package com.populook.system.dao;
+
+import java.util.List;
+
+import com.populook.framework.dao.BaseDao;
+import com.populook.system.entity.Roleope;
+/**
+ * 功能权限DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RoleOpeDao extends BaseDao {
+	
+	    //添加功能权限
+		public void insertRoleOpe(Roleope roleope);
+		
+		//删除功能权限
+		public void deleteRoleOpeById(String role_id);
+		
+		//批量添加功能权限
+		public void batchInsertRoleOpe(List<Roleope> list);
+		
+		//批量更新功能权限
+		public void batchUpdateRoleOpe(List<Roleope> list);
+		
+		//批量删除功能权限
+		public void batchDeleteopeByid(List<Roleope> list);
+}

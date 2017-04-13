@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OperatorRoleMapper">
+
+	<resultMap type="OperatorRole" id="OperatorRoleMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="roleName" property="roleName" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+   <!-- 添加单个角色关系 -->
+   <insert id="insertOperatorRole" parameterType="OperatorRole">
+		insert into
+		OPERATORROLE(id,operator_id,role_id) values(
+		#{id,jdbcType=VARCHAR},#{operatorId,jdbcType=VARCHAR},#{roleId,jdbcType=VARCHAR}
+		)  
+  </insert>
+  
+  <!-- 批量添加角色关系 -->
+  <insert id="batchInsertOperatorRole" parameterType="java.util.List">
+		insert into
+		OPERATORROLE(id,operator_id,role_id) 
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},#{item.operatorId,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR}
+			)  
+        </foreach>
+  </insert>
+
+  <!-- 删除单个角色关系-->
+  <delete id="deleteById" parameterType="java.lang.String">
+		delete from OPERATORROLE
+		where operator_id = #{operator_id}
+  </delete>
+  
+   <!-- 批量删除角色关系 -->
+ <delete id="batchDeleteOpeRole" parameterType="String">   
+    <![CDATA[   
+       delete from OPERATORROLE where operator_id in  
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.operatorId}   
+    </foreach> 
+ </delete>
+  <!--批量查询功能角色集合  -->
+  <select id="selectOperatorRoleList" resultMap="OperatorRoleMap">
+     select  a.id,a.operator_id,a.role_id,b.data_role_name as roleName  from operatorrole a left join role b on a.role_id=b.id
+  </select>
+</mapper>

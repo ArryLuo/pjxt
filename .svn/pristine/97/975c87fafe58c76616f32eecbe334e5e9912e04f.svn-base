@@ -1,0 +1,27 @@
+package com.populook.system.service;
+
+import java.util.List;
+
+import com.populook.system.entity.OperatorRole;
+
+
+public interface OperatorRoleService {
+	
+	//添加系统角色关联
+	public void insertOperatorRole(OperatorRole operatorRole);
+	
+	/*//删除系统角色关联
+	public void deleteOperatorRoleById(String operator_id);*/
+	
+	//批量删除角色关联
+    public void batchDeleteOpeRole(List<OperatorRole> list);
+    
+    //批量添加角色关联
+    public void batchInsertOperatorRole(List<OperatorRole> list);
+    
+    //批量操作用户
+    public void delOperatorRoleAll(String[] useridArr,String[] roleid);
+    
+    //获取所有的用户功能角色集合
+    public List<OperatorRole>  findOperatorRoleList();
+}

@@ -1,0 +1,164 @@
+package com.populook.system.action;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+
+import com.populook.framework.action.PageAction;
+import com.populook.system.entity.Operator;
+import com.populook.system.entity.OperatorRole;
+import com.populook.system.service.OperatorRoleService;
+import com.populook.system.service.OperatorService;
+import com.populook.system.service.RoleService;
+
+/**
+ * 角色关联用户
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Namespace("/system")
+@ParentPackage(value="default")
+public class RoleUserAction extends PageAction{
+	
+	private static final long serialVersionUID = 7042727544811232050L;
+
+	/**
+	 * 用户ID以,分割
+	 */
+	private String userids;
+	
+	/**
+	 * 角色ID以,分割
+	 */
+	private String roleid;
+	
+	@Resource
+	private OperatorService operatorService;
+	
+	@Resource
+	private OperatorRoleService operatorRoleService;
+	
+	@Resource
+	private RoleService roleService;
+	
+	private Operator operators;
+	
+	public Operator getOperators() {
+		return operators;
+	}
+
+	public void setOperators(Operator operators) {
+		this.operators = operators;
+	}
+
+
+	/**
+	 * @return the userids
+	 */
+	public String getUserids() {
+		return userids;
+	}
+
+	/**
+	 * @param userids the userids to set
+	 */
+	public void setUserids(String userids) {
+		this.userids = userids;
+	}
+
+	/**
+	 * @return the roleid
+	 */
+	public String getRoleid() {
+		return roleid;
+	}
+
+	/**
+	 * @param roleid the roleid to set
+	 */
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	/**
+	 * 返回角色用户页面
+	 * @return void
+	 */
+	public String roleuser() {
+		return "roleuser";
+	}
+	
+	/**
+	 * 操作用户角色
+	 * @return void
+	 */
+	public String operatorRoleUser() throws Exception {
+		
+		String[] useridArr = userids.split(",");
+		String[] roleidArr = roleid.split(",");
+		this.operatorRoleService.delOperatorRoleAll(useridArr, roleidArr);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+		
+	}
+	
+	/**
+	 * 操作用户角色
+	 * @return void
+	 */
+	public String operatdatarole() throws Exception {
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+		
+	}
+	
+	
+	/**
+	 * 获取用户
+	 * @return void
+	 */
+	@SuppressWarnings("unchecked")
+	public String getOperator() throws Exception {
+		this.commonResult=this.operatorService.selectPages(operators, pager);
+		List<Operator> commList=(List<Operator>) this.commonResult.getRows();
+		
+		//1.获取所有的功能角色集合
+		List<OperatorRole> funList=this.operatorRoleService.findOperatorRoleList();
+//		
+//		//获取所有的数据角色集合
+//		 List<Opdatarole> opdataroleList=opdataroleService.findAllDataRole();
+		
+		 if(commList.size()>0){
+			 for(Operator opr:commList){
+				 String funName="";
+				 String dataRoleName="";
+				if(funList.size()>0){
+					for(OperatorRole orle:funList){
+						if(opr.getId().equals(orle.getOperatorId())){
+							funName+=orle.getRoleName()+",";
+							continue;
+						}
+					}
+				}
+				 if(StringUtils.isNotEmpty(funName)){
+					 funName=funName.substring(0, funName.length()-1);
+					 opr.setFunRoleName(funName);
+				 }
+
+				 if(StringUtils.isNotEmpty(dataRoleName)){
+					 dataRoleName=dataRoleName.substring(0, dataRoleName.length()-1);
+					 opr.setDataRoleName(dataRoleName);
+				 }
+			 }
+		 }
+		
+		
+		return COMMONJSON;
+		
+	}
+
+}

@@ -1,0 +1,71 @@
+package com.populook.system.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.populook.framework.dao.BaseDao;
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.entity.Menu;
+
+/**
+ * 菜单操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface MenuDao extends BaseDao {
+	
+	/**
+	 * 添加菜单
+	 * @param menu 菜单
+	 * @return void
+	 */
+	public void insertMenu(Menu menu);
+	
+	/**
+	 * 修改菜单
+	 * @param menu 菜单
+	 * @return void
+	 */
+	public void updateMenu(Menu menu);
+	
+	/**
+	 * 删除菜单
+	 * @param id 菜单ID
+	 * @return void
+	 */
+	public void deleteMenuById(String id);
+	
+	/**
+	 * 查询菜单列表
+	 * @return void
+	 */
+	public List<Menu> selectMenu(Menu menu);
+	
+	/**
+	 * 查询菜单列表的一页
+	 * @param param 查询参数
+	 * @param pager 分页对象
+	 * 
+	 * @return 分页结果对象
+	 */
+	public CommonResult selectMenuPage(Menu menu,Pagination pager);
+	
+	/**
+	 * 查询条数
+	 * @param param 查询参数
+	 * @return 总数
+	 */
+	public int selectMenuCount(Menu menu);
+	
+	/**
+	 * 批量删除菜单
+	 * @param id 菜单列表
+	 * @return void
+	 */
+	public void batchDeleteMenu(List<Menu> list);
+	
+
+	
+
+}

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoleMapper">
+
+	<resultMap type="Role" id="RoleMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="data_role_name" property="dataRoleName" jdbcType="VARCHAR" />
+		<result column="is_enable" property="isEnable" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="VARCHAR" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
+		<result column="updatorName" property="updatorName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id,data_role_name,is_enable,creator,create_time, updator,
+		update_time,updatorName,creatorName
+	</sql>
+	
+	<resultMap type="Permission" id="permission" >
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="permission_name" property="permissionName" jdbcType="VARCHAR" />
+		<result column="permission_url" property="permissionUrl" jdbcType="VARCHAR" />
+		<result column="parentid" property="parentid" jdbcType="VARCHAR" />
+		<result column="icolcss" property="icolcss" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <!-- where clause -->
+	<sql id="whereClause">
+		<where>
+		  <if test="dataRoleName !=null and  dataRoleName != ''">
+			data_role_name like concat('%' ,#{dataRoleName} , '%')
+          </if>
+          <if test="isEnable !=null and  isEnable != ''">
+			is_enable = #{isEnable}
+          </if>
+		</where>
+	</sql>
+	
+	<!-- select clause -->
+	<sql id="selectClause">
+		select
+		<include refid="Base_Column_List" />
+		from ROLE
+		<include refid="whereClause"/>
+	</sql>
+	
+    <!-- 查询所有菜单并分页 -->
+	<select id="selectForPagination" resultMap="RoleMap" parameterType="java.util.HashMap">
+		<include refid="selectClause"/>
+		<include refid="CommonMapper.mysqlPager" />
+	</select>
+	
+	<!-- select total count -->
+	<select id="selectCount" parameterType="hashmap" resultType="int">
+		select count(*) from ROLE <include refid="whereClause"/>
+	</select>
+	<!-- 
+    根据角色ID查询功能菜单
+    <select id="getopebyid" resultMap="RoleopeDto" parameterType="java.lang.String">
+		select roleope.allitem as allitem,roleope.permission_id as permissionId from PERMISSION permission,ROLEOPE roleope where roleope.permission_id = permission.id and roleope.role_id = #{role_id,jdbcType=VARCHAR}
+    </select>
+    
+    通用功能菜单
+    <select id="getCommonOpe" resultMap="RoleopeDto" parameterType="java.util.HashMap">
+		select allitem from ROLEOPE where role_id= #{roleId,jdbcType=VARCHAR} and permission_id = #{permission_id,jdbcType=VARCHAR}
+    </select> -->
+    
+    <!-- 查询权限菜单-->
+    <select id="selectallPermission" resultMap="permission">
+		select permission.id as id,permission.parentid as parentid, permission.permission_name as permissionName,permission.permission_url as permissionUrl,permission.icolcss  as icolcss from PERMISSION permission where  permission.parentid!='0' and permission.id!='0' group by permission.id
+    </select>
+    
+    
+    <select id="getroleTree" parameterType="java.util.HashMap" resultMap="permission">
+		select permission.id from ROLE role,PERMISSION permission,ROLEPERMISSION rolepermission where role.id = rolepermission.role_id and rolepermission.permission_id = permission.id
+		and role.id = #{roleid,jdbcType=VARCHAR}
+    </select>
+   
+   <!-- 根据条件查询角色 -->
+   <select id="selectRoleByInfo" resultMap="RoleMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from ROLE
+		<include refid="whereClause"/>
+	</select>
+	
+
+   <!-- 添加角色 -->
+   <insert id="insertRole" parameterType="Role">
+		insert into
+		ROLE(id,data_role_name,is_enable,creator,create_time,updator,update_time,creatorName,updatorName) values(
+		#{id,jdbcType=VARCHAR},#{dataRoleName,jdbcType=VARCHAR},#{isEnable,jdbcType=VARCHAR},
+		#{creator,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{updator,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},#{creatorName,jdbcType=VARCHAR},#{updatorName,jdbcType=VARCHAR}
+		)  
+  </insert>
+    
+   <!-- 更新角色 -->
+   <update id="updateRole" parameterType="Role">
+		update ROLE set
+		data_role_name=#{dataRoleName,jdbcType=VARCHAR},is_enable=#{isEnable,jdbcType=VARCHAR},
+	    updator=#{updator,jdbcType=VARCHAR},updatorName=#{updatorName,jdbcType=VARCHAR},update_time=#{updateTime,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 删除单个角色 -->
+  <delete id="deleteRoleById" parameterType="java.lang.String">
+		delete from ROLE
+		where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  
+ <!-- 批量删除角色 -->
+ <delete id="batchDeleteRole" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from ROLE where id in   
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.id}   
+    </foreach>
+ </delete>
+</mapper>

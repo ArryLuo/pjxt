@@ -1,0 +1,56 @@
+ <!--底部导航-->
+<div class="ny_item_service">
+  <ul class="ulHelp w_1002">
+    <li>
+      <div class="con">
+        <h4 class="b1">新手指南</h4>
+        <p><a target="_blank" href="/html/bzzx?tag=1&channelId=1_0">登录注册</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=16&channelId=16_0">账户充值</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=19&channelId=19_0">学习卡</a></p>
+      </div>
+    </li>
+    <li>
+      <div class="con">
+        <h4 class="b2">购课指南</h4>
+        <p><a target="_blank" href="/html/bzzx?tag=4&channelId=4_1">选课指南</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=5&channelId=12_1">在线支付</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=6&channelId=6_0">退课说明</a></p>
+      </div>
+    </li>
+    <li>
+      <div class="con">
+        <h4 class="b3">学习指南</h4>
+        <p><a target="_blank" href="/html/bzzx?tag=7&channelId=7_0">在线学习</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=8&channelId=8_0">在线考试</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=9&channelId=9_0">学时申报</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=9&channelId=9_3">打印证书</a></p>
+      </div>
+    </li>
+    <li>
+      <div class="con">
+        <h4 class="b5">网络环境</h4>
+        <p><a target="_blank" href="/html/bzzx?tag=10&channelId=10_0">软件下载</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=10&channelId=10_1">视频问题</a></p>
+        <p><a target="_blank" href="/html/bzzx?tag=10&channelId=10_2">播放器插件</a></p>
+      </div>
+    </li>
+    <li class="last">
+      <div class="con">
+        <h4 class="b4">客服专线：400-020-1688</h4>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="ny_footer w_1002">
+  <div class="fl copy_righ">
+    <p>Copyright  2012 江门职业技术学院 All Rights Reserved.&nbsp;|&nbsp;</p>   
+   <p>地址: 江门市幸福新村东24号(旧教育学院9号楼3楼教育培训办公室) 电话：0750-3508206</p>   
+     <p>备案：粤ICP备05065345号  技术支持：北京市空越技术有限公司
+</p><script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://":"http://");document.write(unescape("%3Cspan  class='tj_box' id='cnzz_stat_icon_1254056072'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "w.cnzz.com/q_stat.php%3Fid%3D1254056072%26l%3D2' type='text/javascript'%3E%3C/script%3E"));</script>
+
+  </div>
+  <div class="foot_sj_box fr"> <a href="#">
+    <h4>手机客户端</h4>
+    <p>离线缓存  随时随地学习</p>
+    </a> </div>
+</div>

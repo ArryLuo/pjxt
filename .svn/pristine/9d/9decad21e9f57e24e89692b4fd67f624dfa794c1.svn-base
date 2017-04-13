@@ -1,0 +1,229 @@
+package com.populook.system.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.framework.util.DateUtil;
+import com.populook.system.dao.RoleDao;
+import com.populook.system.dao.RolePermissionDao;
+import com.populook.system.entity.Permission;
+import com.populook.system.entity.Role;
+import com.populook.system.entity.RolePermission;
+import com.populook.system.service.RoleService;
+import com.populook.system.shiro.UserInfo;
+
+/**
+ * 角色操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleService")
+public class RoleServiceImpl implements RoleService{
+	
+	@Resource
+	private RoleDao roleDao;
+	
+	@Resource
+	private RolePermissionDao rolePermissionDao;
+	
+	/**
+	 * 添加角色
+	 * @param role 角色
+	 * @return void
+	 */
+	@Override
+	public void insertRole(Role role) {
+		this.roleDao.insertRole(role);
+	}
+	
+	/**
+	 * 修改角色
+	 * @param role 角色
+	 * @return void
+	 */
+	@Override
+	public void updateRole(Role role) {
+		this.roleDao.updateRole(role);
+	}
+	
+	/**
+	 * 删除角色
+	 * @param role 角色
+	 * @return void
+	 */
+	@Override
+	public void deleteRoleById(String id) {
+		this.roleDao.deleteRoleById(id);
+	}
+	
+	/**
+	 * 根据条件查询具体的角色信息
+	 * @param map 查询参数
+	 * @return List<Role>
+	 */
+	@Override
+	public List<Role> selectRoleByInfo(Map<String,Object> map) {
+		return this.roleDao.selectRoleByInfo(map);
+	}
+	
+	
+//	/**
+//	 * 查询不是根节点的菜单
+//	 * @return List<Permission>
+//	 */
+//	@Override
+//	public List<Permission> selectallPermission() {
+//		return this.roleDao.selectallPermission();
+//	}
+	
+	/**
+	 * 根据角色ID查询角色菜单
+	 * @param roleid 角色ID
+	 * @return List<Permission>
+	 */
+	@Override
+	public List<Permission> getroleTree(String roleid) {
+		return this.roleDao.getroleTree(roleid);
+	}
+	
+	/**
+	 * 批量删除角色
+	 * @param ids 角色ID数组
+	 * @return void
+	 */
+	public void batchDelRole(String id) {
+		String[] ids = id.split(",");
+		List<Role> list = new ArrayList<Role>();
+		List<RolePermission> rolemenuList = new ArrayList<RolePermission>();
+//		List<Roleope> roleopeList = new ArrayList<Roleope>();
+		for(int i = 0; i < ids.length; i++) {
+			Role role = new Role();
+			role.setId(ids[i]);
+			list.add(role);
+			
+			RolePermission rolemenu = new RolePermission();
+			rolemenu.setRoleId(ids[i]);
+			rolemenuList.add(rolemenu);
+			
+//			Roleope roleope = new Roleope();
+//			roleope.setRoleId(ids[i]);
+//			roleopeList.add(roleope);
+			
+		}
+		this.roleDao.batchDeleteRole(list);
+		this.rolePermissionDao.batchDeleteByroleid(rolemenuList);
+//		this.roleOpeDao.batchDeleteopeByid(roleopeList);
+	}
+	
+	/**
+	 * 根据角色ID查询功能菜单
+	 * @param dataRoleName 角色名称
+	 * @param roleid 角色ID
+	 * @param menuids 菜单数组
+	 * @return List<RoleopeDto>
+	 */
+	public void batchInsertRoleAll(String dataRoleName,String roleid,String menuids,String isEnable) {
+		
+//		String[] menuitemarr = menuitem.split(":");
+//		List<Roleope> roleopeList = new ArrayList<Roleope>();
+		
+		String[] menuarr = menuids.split(",");
+		List<RolePermission> rolePermissionList = new ArrayList<RolePermission>();
+		
+		if(roleid == null || "".equals(roleid)) {
+            String id = UUID.randomUUID().toString().replace("-", "");
+			Role role = new Role();
+			role.setId(id);
+			role.setIsEnable(isEnable);
+			role.setDataRoleName(dataRoleName);
+			role.setCreateTime(DateUtil.getDateToString(new Date()));
+			role.setCreator(UserInfo.getUserid());
+			role.setUpdateTime(DateUtil.getDateToString(new Date()));
+			role.setUpdator(UserInfo.getUserid());
+			role.setUpdatorName(UserInfo.getUserName());
+			role.setCreatorName(UserInfo.getUserName());
+			this.roleDao.insertRole(role);
+
+			for(int i = 0; i < menuarr.length; i++) {
+				RolePermission rolePermission = new RolePermission();
+				rolePermission.setId(UUID.randomUUID().toString().replace("-", ""));
+				rolePermission.setRoleId(id);
+				rolePermission.setPermissionId(menuarr[i]);
+				rolePermissionList.add(rolePermission);
+			}
+//			for(int i =0; i < menuitemarr.length; i++) {
+//				String[] rolejoinopearr = menuitemarr[i].split(",");
+//				Roleope roleope = new Roleope();
+//				roleope.setId(UUID.randomUUID().toString().replace("-", ""));
+//				roleope.setRoleId(id);
+//				roleope.setAllitem(rolejoinopearr[1]+","+rolejoinopearr[2]+","+rolejoinopearr[3]+","+rolejoinopearr[4]);
+//				roleope.setPermissionId(rolejoinopearr[0]);
+//				roleopeList.add(roleope);
+//				
+//			}
+//			this.roleOpeDao.batchInsertRoleOpe(roleopeList);
+			this.rolePermissionDao.batchInsertRolePermission(rolePermissionList);
+		} else {
+			Role role = new Role();
+			role.setId(roleid);
+			role.setIsEnable(isEnable);
+			role.setDataRoleName(dataRoleName);
+			role.setUpdateTime(DateUtil.getDateToString(new Date()));
+			role.setUpdator(UserInfo.getUserid());
+			role.setUpdatorName(UserInfo.getUserName());
+			this.roleDao.updateRole(role);
+		    
+			this.rolePermissionDao.deleteRolePermissionById(roleid);
+			for(int i = 0; i < menuarr.length; i++) {
+				RolePermission rolePermission = new RolePermission();
+				rolePermission.setId(UUID.randomUUID().toString().replace("-", ""));
+				rolePermission.setPermissionId(menuarr[i]);
+				rolePermission.setRoleId(roleid);
+				rolePermissionList.add(rolePermission);
+			}
+			this.rolePermissionDao.batchInsertRolePermission(rolePermissionList);
+//			try{
+//			
+//			this.roleOpeDao.deleteRoleOpeById(roleid);
+//			}catch(Exception e) {
+//				e.printStackTrace();
+//			}
+//			for(int i =0; i < menuitemarr.length; i++) {
+//				String[] rolejoinopearr = menuitemarr[i].split(",");
+//				Roleope roleope = new Roleope();
+//				roleope.setId(UUID.randomUUID().toString().replace("-", ""));
+//				roleope.setRoleId(roleid);
+//				roleope.setAllitem(rolejoinopearr[1]+","+rolejoinopearr[2]+","+rolejoinopearr[3]+","+rolejoinopearr[4]);
+//				roleope.setPermissionId(rolejoinopearr[0]);
+//				roleopeList.add(roleope);
+//				
+//			}
+//			this.roleOpeDao.batchInsertRoleOpe(roleopeList);
+			
+		}
+	}
+	
+	/**
+	 * 批量删除菜单
+	 * @param list 角色菜单集合
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteRole(List<Role> list) { 
+		this.roleDao.batchDeleteRole(list);
+	}
+
+	@Override
+	public CommonResult selectPages(Role role, Pagination pager) {
+		return this.roleDao.selectRolePage(role, pager);
+	}
+}

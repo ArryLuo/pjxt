@@ -1,0 +1,30 @@
+package com.populook.system.dao;
+
+import java.util.List;
+
+import com.populook.framework.dao.BaseDao;
+import com.populook.system.entity.RoleMenu;
+
+/**
+ * 角色menu操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RoleMenuDao extends BaseDao {
+	
+	//添加角色menu
+	public void insertRoleMenu(RoleMenu roleMenu);
+	
+	//删除角色menu
+	public void deleteRoleMenuById(String role_id);
+	
+	//批量添加角色menu
+	public void batchInsertRoleMenu(List<RoleMenu> list);
+	
+	//批量更新角色menu
+	public void batchUpdateRoleMenu(List<RoleMenu> list);
+	
+	//批量删除角色menu
+	public void batchDeleteByroleid(List<RoleMenu> list);
+
+}

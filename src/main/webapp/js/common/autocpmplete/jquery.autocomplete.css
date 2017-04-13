@@ -1,0 +1,44 @@
+.ac_results {
+	padding: 0px;
+    border: 1px solid #8080ff; 	 /*显示的下拉框的边颜色*/
+    background-color: #ffffff;   /*初始化格式默认背景色*/
+	overflow: hidden;
+	z-index: 99999;
+}
+
+.ac_results ul {
+	width: 100%;
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	padding: 2px 5px;
+	cursor: default;
+	display: block;
+	/*if width will be 100% horizontal scrollbar will apear when scroll mode will be used width: 100%;*/
+	font: menu;
+	font-size: 14px;
+	/*it is very important, if line-height not setted or setted in relative units scroll will be broken in firefox */
+	line-height: 18px;
+	overflow: hidden;
+}
+
+.ac_loading {
+	background: white url('/images/indicator.gif') right center no-repeat;
+}
+
+.ac_odd {
+    /*background-color: #eee;*/
+    /*background-color: #FFF3B5;*/
+    background-color: #ffffff;   /*初始化格式默认背景色(隔行变色)*/
+}
+
+.ac_over {
+	/*background-color: #0A246A;*/
+    background-color: #0080ff;   /*鼠标经过时的颜色*/
+    color: white;  /*鼠标经过的字体颜色*/
+}

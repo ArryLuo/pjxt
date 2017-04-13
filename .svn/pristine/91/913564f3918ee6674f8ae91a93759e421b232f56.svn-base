@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%@ include file="/common/taglibs.jsp"%>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wWy2A8K94nhntYTYUHS19RXW"></script>
+    <title>视频页面</title>
+<style>
+.l-btn-text{ padding:0; margin:0}
+.sstime{ height:24px; line-height:24px; color:#333; padding:2px 10px; border-bottom:1px solid #ccc;}
+</style>
+</head>
+<body>   
+<div id="divid" style="width:818px; height:600px; border:1px solid #ccc; border-radius:5px 5px 0 0; margin:3px auto 0 auto">
+<h3 class="sstime">实时视频</h3>
+ <object type="application/x-vlc-plugin" id="objectid" data="${src}" width="820" height="600" id="video1">
+     <param id="paramid" name="movie" value="${src}"/>
+     <embed id="embedid" type="application/x-vlc-plugin" name="video1" autoplay="no" loop="no" 
+     width="800" height="400" target="${src}" />
+     <a id="aid" href="${src}">Download Video1</a>
+</object>
+</div>
+</body>
+</html>

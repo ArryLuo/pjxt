@@ -1,0 +1,116 @@
+.icon-blank{
+	background:url('icons/blank.gif') no-repeat center center;
+}
+.icon-view{
+	background:url('../images/font-awesome/file_337ab7_14.png') no-repeat center center;
+}
+
+.icon-add{
+	background:url('../images/font-awesome/plus_337ab7_14.png') no-repeat center center;
+}
+.icon-edit{
+	background:url('../images/font-awesome/edit_337ab7_14.png') no-repeat center center;
+}
+.icon-edit-white{
+	background:url('../images/font-awesome/pencil-square-o_ffffff_14.png') no-repeat center center;
+	
+}
+.icon-remove{
+	background:url('../images/font-awesome/trash-o_337ab7_14.png') no-repeat center center;
+}
+.icon-save{
+	background:url('../images/font-awesome/save_337ab7_14.png') no-repeat center center;
+}
+.icon-cut{
+	background:url('../images/font-awesome/cut_337ab7_14.png') no-repeat center center;
+}
+.icon-ok{
+	background:url('../images/font-awesome/check_ffffff_14.png') no-repeat center center;
+}
+
+.icon-ok-blue{
+	background:url('../images/font-awesome/check_337ab7_14.png') no-repeat center center;
+}
+
+.icon-no{
+	background:url('../images/font-awesome/times_337ab7_14.png') no-repeat center center;
+}
+.icon-cancel{
+	background:url('../images/font-awesome/times_337ab7_14.png') no-repeat center center;
+}
+.icon-reload{
+	background:url('../images/font-awesome/refresh_337ab7_14.png') no-repeat center center;
+}
+.icon-search{
+	background:url('../images/font-awesome/search_ffffff_14.png') no-repeat center center;
+}
+.icon-print{
+	background:url('../images/font-awesome/print_337ab7_14.png') no-repeat center center;
+}
+.icon-help{
+	background:url('../images/font-awesome/question_337ab7_14.png') no-repeat center center;
+}
+.icon-undo{
+	background:url('../images/font-awesome/undo_337ab7_14.png') no-repeat center center;
+}
+.icon-redo{
+	background:url('../images/font-awesome/repeat_337ab7_14.png') no-repeat center center;
+}
+.icon-back{
+	background:url('../images/font-awesome/arrow-left_337ab7_14.png') no-repeat center center;
+}
+.icon-sum{
+	background:url('../images/font-awesome/list-alt_337ab7_14.png') no-repeat center center;
+}
+.icon-tip{
+	background:url('../images/font-awesome/info_337ab7_14.png') no-repeat center center;
+}
+.icon-filter{
+	background:url('../images/font-awesome/filter_337ab7_14.png') no-repeat center center;
+}
+
+
+.icon-mini-add{
+	background:url('icons/mini_add.png') no-repeat center center;
+}
+.icon-mini-edit{
+	background:url('icons/mini_edit.png') no-repeat center center;
+}
+.icon-mini-refresh{
+	background:url('icons/mini_refresh.png') no-repeat center center;
+}
+
+.icon-large-picture{
+	background:url('icons/large_picture.png') no-repeat center center;
+}
+.icon-large-clipart{
+	background:url('icons/large_clipart.png') no-repeat center center;
+}
+.icon-large-shapes{
+	background:url('icons/large_shapes.png') no-repeat center center;
+}
+.icon-large-smartart{
+	background:url('icons/large_smartart.png') no-repeat center center;
+}
+.icon-large-chart{
+	background:url('icons/large_chart.png') no-repeat center center;
+}
+.icon-down{
+	background:url('../images/font-awesome/download_337ab7_14.png') no-repeat center center;
+}
+.icon-up{
+	background:url('../images/font-awesome/upload_337ab7_14.png') no-repeat center center;
+}
+
+
+.icon-down-left{
+    background:url('../images/font-awesome/download_337ab7_14.png') no-repeat left center;
+}
+
+.icon-eye{
+    background:url('../images/font-awesome/eye_337ab7_14.png') no-repeat left center;
+}
+
+.icon-share{
+    background:url('../images/font-awesome/share_337ab7_14.png') no-repeat left center;
+}

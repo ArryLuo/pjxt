@@ -1,0 +1,298 @@
+package com.populook.system.action;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+import com.populook.framework.action.PageAction;
+import com.populook.framework.util.DateUtil;
+import com.populook.framework.util.EncryptUtils;
+import com.populook.system.entity.Operator;
+import com.populook.system.entity.Permission;
+import com.populook.system.service.OperatorService;
+import com.populook.system.service.PermissionService;
+import com.populook.system.service.RoleService;
+import com.populook.system.shiro.UserInfo;
+import com.populook.system.utils.Tree;
+import com.populook.system.utils.TreePermission;
+import com.populook.util.SysConfig;
+
+/**
+ * 操作人员管理
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Namespace("/system")
+@ParentPackage(value="default")
+@Results({ @Result(name="treeData", type="json",params={"root","permissionList"})}
+		)
+public class OperatorAction extends PageAction{
+	
+	private static Log log=LogFactory.getLog(OperatorAction.class);
+	
+	private static final long serialVersionUID = 761454295108997303L;
+
+
+	@Resource
+	private OperatorService operatorService;
+	
+	@Resource
+	private PermissionService permissionService;
+	
+	@Resource
+	private RoleService roleService;
+	
+	private Operator operators;
+	
+	private String id;
+	
+	private List<Tree> permissionList;
+
+
+	/**
+	 * @return the permissionList
+	 */
+	public List<Tree> getPermissionList() {
+		return permissionList;
+	}
+
+
+	/**
+	 * @param permissionList the permissionList to set
+	 */
+	public void setPermissionList(List<Tree> permissionList) {
+		this.permissionList = permissionList;
+	}
+
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public Operator getOperators() {
+		return operators;
+	}
+
+
+	public void setOperators(Operator operators) {
+		this.operators = operators;
+	}
+
+	/**
+	 * 跳转到操作人员管理页面
+	 * @return void
+	 */
+	public String getOperator() throws Exception {
+		if(operators==null){
+			operators=new Operator();
+		}
+		operators.setUsertype("03");
+		this.commonResult=this.operatorService.selectPages(operators, pager);
+		return COMMONJSON;
+		
+	}
+	
+	/**
+	 * 批量操作管理用户
+	 * @return void
+	 */
+	public String operatorUser() throws Exception {
+		if("".equals(operators.getId()) || operators.getId() == null) {
+			
+			
+			//此处需要判断 用户名不能相同
+			 List<Operator>  operatorList= operatorService.selectAll(null);
+			if (operatorList != null) {
+				for (Operator s : operatorList) {
+					if (s.getUsername().equals(operators.getUsername())) {
+						this.commonResult.setMessage("用户名["+s.getUsername()+"]已存在");
+						this.commonResult.setResult("false");
+						return COMMONJSON;
+					}
+				}
+			}
+			
+			operators.setId(UUID.randomUUID().toString().replace("-", ""));
+			operators.setUserpasswd(EncryptUtils.encryptMD5(operators.getUserpasswd()));
+			operators.setCreatetime(DateUtil.getDateToString(new Date()));
+			operators.setCreator(UserInfo.getUserid());
+			operators.setLasteditor(UserInfo.getUserid());
+			operators.setUsertype("03");
+			operators.setLastedittime(DateUtil.getDateToString(new Date()));
+			this.operatorService.insertOperator(operators);
+		} else {
+			
+			//此处需要判断 用户名不能相同
+			 List<Operator>  operatorList= operatorService.selectAll(null);
+			if (operatorList != null) {
+				for (Operator s : operatorList) {
+					if (s.getUsername().equals(operators.getUsername())&&(!s.getId().equals(operators.getId()))) {
+						this.commonResult.setMessage("用户名["+s.getUsername()+"]已存在");
+						this.commonResult.setResult("false");
+						return COMMONJSON;
+					}
+				}
+			}
+			
+			if(operators.getUserpasswd()!=null && !"".equals(operators.getUserpasswd()) && !"********".equals(operators.getUserpasswd())){
+				operators.setUserpasswd(EncryptUtils.encryptMD5(operators.getUserpasswd()));
+			}else{
+				operators.setUserpasswd(null);
+			}
+			operators.setUsertype("03");
+			operators.setLasteditor(UserInfo.getUserid());
+			operators.setLastedittime(DateUtil.getDateToString(new Date()));
+			this.operatorService.updateOperator(operators);
+		}
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	
+	}
+	
+	/**
+	 * 批量操作管理用户
+	 * @return void
+	 */
+	public String resetPwd() throws Exception {
+		Operator operator = new Operator();
+		operator.setId(id);
+		operator.setUserpasswd(EncryptUtils.encryptMD5(SysConfig.OP_DEFAULT_PWD));
+		operator.setLasteditor(UserInfo.getUserid());
+		operator.setLastedittime(DateUtil.getDateToString(new Date()));
+		operator.setUsertype("03");
+		this.operatorService.updateOperator(operator);
+		this.commonResult.setMessage(SysConfig.OP_DEFAULT_PWD);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	
+	}
+
+	/**
+	 * 改密码
+	 * @return void
+	 */
+	public String changePwd() throws Exception {
+		
+//		Operator operator = new Operator();
+//		operator.setId(id);
+//		operator.setUserpasswd(EncryptUtils.encryptMD5(SysConfig.OP_DEFAULT_PWD));
+		if(operators.getUserpasswd()!=null && !"".equals(operators.getUserpasswd()) && !"********".equals(operators.getUserpasswd())){
+			operators.setUserpasswd(EncryptUtils.encryptMD5(operators.getUserpasswd()));
+		}else{
+			operators.setUserpasswd(null);
+		}
+		this.operators.setLasteditor(UserInfo.getUserid());
+		this.operators.setLastedittime(DateUtil.getDateToString(new Date()));
+//		operator.setUsertype("03");
+		this.operatorService.updateOperator(operators);
+		this.commonResult.setMessage(SysConfig.OP_DEFAULT_PWD);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	
+	}
+	
+	
+	/**
+	 * 批量删除管理用户
+	 * @return void
+	 */
+	public String batchDeleteOperator() throws Exception {
+		String[] ids = id.split(",");
+		List<Operator> list = new ArrayList<Operator>();
+		for(int i = 0; i < ids.length; i++) {
+			Operator operator = new Operator();
+			operator.setId(ids[i]);
+			list.add(operator);
+		}
+		this.operatorService.batchDeleteOperator(list);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+		
+	}
+	
+	/**
+	 * 跳转到管理用户
+	 * @return String
+	 */
+	public String operator() {
+		return "operator";
+	}
+	
+	/**
+	 * 
+	 * @return void
+	 */
+	public String selectPermissionByID() throws Exception {
+		List<Permission> permissionList = this.permissionService.selectPermissionByUserId(UserInfo.getUserid(),Permission.MENU_TYPE);
+		TreePermission permission = new TreePermission(permissionList);
+		Tree tree = permission.getTreeJson();
+		this.permissionList = tree.getChildren();
+		return "treeData";
+
+	}
+    
+	/**
+	 * 查询所有菜单
+	 * @return void
+	 */
+	public String selectPermission() throws Exception {
+		List<Permission> permissionList = this.permissionService.selectPermissionList(null);
+		TreePermission permission = new TreePermission(permissionList);
+		Tree tree = permission.getTreeJson();
+		this.permissionList = tree.getChildren();
+		return "treeData";
+	}
+	
+	/**
+	 * 查询所有菜单
+	 * @return void
+	 */
+	public String selectByPermission() throws Exception {
+		List<Permission> permissionList = this.permissionService.selectPermissionList(null);
+		TreePermission permission = new TreePermission(permissionList);
+		Tree<Permission> tree=permission.getTreeJson();
+		tree.setText("root");
+		tree.setState("open");
+		this.permissionList=new ArrayList<Tree>();
+		this.permissionList.add(tree);
+		return "treeData";
+	}
+	
+	public String checkUserName(){
+		Integer num = this.operatorService.checkUserName(this.operators.getUsername());
+		this.commonResult.setResult(String.valueOf(num));
+		return COMMONJSON;
+	}
+	
+	public String checkUserRole(){
+		/*System.out.println(UserInfo.getRoleId());
+		if(!id.equals(UserInfo.getUserid())){
+			this.commonResult.setResult("false");
+		}else{
+			this.commonResult.setResult("true");
+		}*/
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	}
+}

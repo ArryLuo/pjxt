@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="myOperatorMapper">
+
+	<resultMap type="Operator" id="myOperatorMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="platform_site_id" property="platformSiteId" jdbcType="VARCHAR" />
+		<result column="codeid" property="codeid" jdbcType="VARCHAR" />
+		<result column="usertype" property="usertype" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="county" property="county" jdbcType="VARCHAR" />
+		<result column="organization" property="organization" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="userpasswd" property="userpasswd" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="realname" property="realname" jdbcType="VARCHAR" />
+		<result column="cardtype" property="cardtype" jdbcType="VARCHAR" />
+		<result column="cardno" property="cardno" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="VARCHAR" />
+		<result column="degree" property="degree" jdbcType="VARCHAR" />
+		<result column="domain" property="domain" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="post" property="post" jdbcType="VARCHAR" />
+		<result column="industry" property="industry" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="postcode" property="postcode" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="userphoto" property="userphoto" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="logonnum" property="logonnum" jdbcType="NUMERIC" />
+		<result column="lastlogontime" property="lastlogontime" jdbcType="VARCHAR" />
+		<result column="userstatus" property="userstatus" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="lasteditor" property="lasteditor" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
+		<result column="lastedittime" property="lastedittime" jdbcType="VARCHAR" />
+		<result column="delflag" property="delflag" jdbcType="VARCHAR" />
+		<result column="balance" property="balance" jdbcType="NUMERIC" />
+		<result column="totalconsumeamount" property="totalconsumeamount" jdbcType="NUMERIC" />
+		<result column="hrid" property="hrid" jdbcType="VARCHAR" />
+		<result column="fax" property="fax" jdbcType="VARCHAR" />
+		<result column="organizationid" property="organizationid" jdbcType="VARCHAR" />
+		<result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+
+	<sql id="Base_Column_List">
+		id,platform_site_id,codeid,usertype,province, city,
+		county,organization,username,userpasswd,email,realname,cardtype,cardno,birthday,
+		degree,domain,title,post,industry,address,postcode,mobile,phone,sex,userphoto,memo,
+		logonnum,lastlogontime,userstatus,creator,lasteditor,createtime,
+		lastedittime,delflag,balance,totalconsumeamount,hrid,fax,organizationid,starttime,endtime
+	</sql>
+	
+    <!-- where clause -->
+	<sql id="whereClause">
+		<where>
+			<if test="organizationid != null and organizationid != ''">
+				organizationid=#{organizationid}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- select clause -->
+	<sql id="selectClause">
+		select
+		<include refid="Base_Column_List" />
+		from OPERATOR
+		<include refid="whereClause"/>
+	</sql>
+	
+    <!-- 查询所有菜单并分页 -->
+	<select id="selectForPagination" resultMap="myOperatorMap" parameterType="java.util.HashMap">
+		<include refid="selectClause"/>
+		order by lastedittime desc 
+		 <include refid="CommonMapper.mysqlPager" /> 
+	</select>
+	
+	<!-- select total count -->
+	<select id="selectCount" parameterType="Operator" resultType="int">
+		select count(*) from OPERATOR <include refid="whereClause"/>
+	</select>
+	
+	
+
+    
+
+
+
+ 
+ 
+ 
+ 
+</mapper>

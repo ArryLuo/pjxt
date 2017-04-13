@@ -1,0 +1,81 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.system.dao.RolePermissionDao;
+import com.populook.system.entity.RolePermission;
+
+/**
+ * 角色Permission操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("rolePermissionDao")
+public class RolePermissionDaoImpl extends BaseDaoSupport implements RolePermissionDao{
+	
+	@Resource
+	private SqlSessionFactory sqlSessionFactory;
+	
+	@PostConstruct
+	public void initSqlMapClient() {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
+	/**
+	 * 添加角色Permission
+	 * @param RolePermission 角色Permission
+	 * @return void
+	 */
+	@Override
+	public void insertRolePermission(RolePermission rolePermission) {
+		getSqlSession().insert("RolePermissionMapper.insertRolePermission",rolePermission);
+	}
+	
+	/**
+	 * 删除角色Permission
+	 * @param RolePermission 角色Permission
+	 * @return void
+	 */
+	@Override
+	public void deleteRolePermissionById(String role_id) {
+		getSqlSession().delete("RolePermissionMapper.deleteRolePermissionById",role_id);
+	}
+	
+	/**
+	 * 批量添加角色Permission
+	 * @param List<RolePermission> 角色Permission集合
+	 * @return void
+	 */
+	@Override
+	public void batchInsertRolePermission(List<RolePermission> list) {
+		getSqlSession().insert("RolePermissionMapper.batchInsertRolePermission",list);
+	}
+	
+	/**
+	 * 批量更新角色Permission
+	 * @param List<RolePermission> 角色Permission集合
+	 * @return void
+	 */
+	@Override
+	public void batchUpdateRolePermission(List<RolePermission> list) {
+		getSqlSession().update("RolePermissionMapper.batchUpdateRolePermission",list);
+	}
+	
+	/**
+	 * 批量删除角色Permission
+	 * @param List<RolePermission> 角色Permission集合
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteByroleid(List<RolePermission> list) {
+		getSqlSession().delete("RolePermissionMapper.batchDeleteByroleid",list);
+	}
+	
+
+}

@@ -1,0 +1,71 @@
+package com.populook.system.entity;
+
+public class RoleMenu implements java.io.Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	
+	private String roleId;
+	
+	private String menuId;
+
+	public RoleMenu() {
+		super();
+	}
+
+	/**
+	 * @param id
+	 * @param roleId
+	 * @param menuId
+	 */
+	public RoleMenu(String id, String roleId, String menuId) {
+		super();
+		this.id = id;
+		this.roleId = roleId;
+		this.menuId = menuId;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the roleId
+	 */
+	public String getRoleId() {
+		return roleId;
+	}
+
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	/**
+	 * @return the menuId
+	 */
+	public String getMenuId() {
+		return menuId;
+	}
+
+	/**
+	 * @param menuId the menuId to set
+	 */
+	public void setMenuId(String menuId) {
+		this.menuId = menuId;
+	}
+
+
+}

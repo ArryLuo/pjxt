@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OperatorMapper">
+
+	<resultMap type="Operator" id="OperatorMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="usertype" property="usertype" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="userpasswd" property="userpasswd" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="logonnum" property="logonnum" jdbcType="NUMERIC" />
+		<result column="lastlogontime" property="lastlogontime" jdbcType="VARCHAR" />
+		<result column="userstatus" property="userstatus" jdbcType="VARCHAR" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="lasteditor" property="lasteditor" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
+		<result column="lastedittime" property="lastedittime" jdbcType="VARCHAR" />
+		<result column="update_user_name" property="updateUserName" jdbcType="VARCHAR" />
+		<result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- <resultMap type="Menu" id="menu" >
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+		<result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+		<result column="parentid" property="parentid" jdbcType="VARCHAR" />
+		<result column="icolcss" property="icolcss" jdbcType="VARCHAR" />
+    </resultMap> -->
+
+	<sql id="Base_Column_List">
+		id,usertype,username,userpasswd,memo,
+		logonnum,lastlogontime,userstatus,creator,lasteditor,createtime,lastedittime
+	</sql>
+	
+    <!-- where clause -->
+	<sql id="whereClause">
+		<where>
+			<if test="username != null and username != ''">
+			    username like concat('%' , #{username} , '%')
+			</if>
+		</where>
+	</sql>
+	
+	<!-- select clause -->
+	<sql id="selectClause">
+		select
+		<include refid="Base_Column_List" />
+		from operator
+		<include refid="whereClause"/>
+	</sql>
+	
+    <!-- 查询所有菜单并分页 -->
+	<select id="selectForPagination" resultMap="OperatorMap" parameterType="java.util.HashMap">
+		select
+			o.ID,
+            o.USERTYPE,
+            o.USERNAME,
+            o.USERPASSWD,
+            o.MEMO,
+            o.LOGONNUM,
+            o.LASTLOGONTIME,
+            o.USERSTATUS,
+            o.CREATOR,
+            c.USERNAME create_user_name,
+            o.LASTEDITOR,
+            u.USERNAME update_user_name,
+            o.CREATETIME,
+            o.LASTEDITTIME
+		from operator o
+		left outer join operator c on c.ID=o.CREATOR
+		left outer join operator u on u.ID=o.LASTEDITOR
+		<where>
+			<if test="username != null and username != ''">
+				o.username like concat('%' , #{username} , '%')
+			</if>
+			<if test="usertype!=null">
+				and o.usertype=#{usertype}
+			</if>
+		</where>
+		order by o.lastedittime desc
+		<include refid="CommonMapper.mysqlPager" />
+	</select>
+	 <select id="selectone" resultMap="OperatorMap" parameterType="String">
+	 select 
+	 <include refid="Base_Column_List" />
+	  from operator
+	 where operator.id=#{id}
+     </select>
+	<!-- select total count -->
+	<select id="selectCount" parameterType="hashmap" resultType="int">
+		select count(*) from operator o 
+		<where>
+			<if test="username != null and username != ''">
+				o.username like concat('%' , #{username} , '%')
+			</if>
+			<if test="usertype!=null">
+				and o.usertype=#{usertype}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectOperator" parameterType="Operator" resultType="String">
+		select id from operator 
+		<where>
+			<if test="userstatus != null and userstatus != ''">
+				AND userstatus = #{userstatus}
+			</if>
+			<if test="usertype!=null">
+				and usertype=#{usertype}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据用户名和密码查询角色等信息-->
+	<select id="getUserRoleInfo" parameterType="java.util.HashMap" resultType="com.populook.system.entity.dto.OperatorDto">
+	      select operator.id userid,operator.username username,operator.userpasswd password,operator.usertype from OPERATOR
+	      <where>
+	          <if test="username !=null">
+					 and operator.username = #{username}
+	          </if>
+	          <if test="userpasswd !=null">
+					 and operator.userpasswd = #{userpasswd} 
+	          </if>
+          </where>
+         
+    </select>
+        
+    <update id="batchOutTimeOpertor" parameterType="java.util.List">
+    	update operator set userstatus = '01'  where id in 
+    	<foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model}   
+    	</foreach> 
+    </update>
+    
+    <update id="batchDisableOpertor" parameterType="java.util.List">
+    	update operator set userstatus = '01' where id in 
+    	<foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model}   
+    	</foreach> 
+    </update>
+    <update id="batchEnableOpertor" parameterType="java.util.List">
+   		update operator set userstatus = '00' where id in 
+    	<foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model}   
+    	</foreach> 
+    </update>
+    
+    
+
+	<!-- 根据用户名查询用户信息 -->
+    <!--<select id="selectOperatorByUsername" resultMap="OperatorMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from operator
+		<include refid="whereClause"/>
+    </select>-->
+    
+    
+    <!-- 查询所有的权限菜单
+    <select id="selectMenu" resultMap="menu">
+		select menu.id,menu.parentid, menu.menu_name,menu.menu_url ,menu.icolcss from MENU menu  	order by (menu.orders+0) asc 
+    </select>-->
+
+   <!-- 添加单个用户 -->
+   <insert id="insertOperator" parameterType="Operator">
+		insert into operator
+		(id,usertype,username,userpasswd,memo,logonnum,lastlogontime,userstatus,creator,lasteditor,createtime,lastedittime)
+		 values(
+			#{item.id,jdbcType=VARCHAR},
+			#{item.usertype,jdbcType=VARCHAR},
+			#{item.username,jdbcType=VARCHAR},#{item.userpasswd,jdbcType=VARCHAR},#{item.memo,jdbcType=VARCHAR},
+			#{item.logonnum,jdbcType=NUMERIC},#{item.lastlogontime,jdbcType=VARCHAR},#{item.userstatus,jdbcType=VARCHAR},
+			#{item.creator,jdbcType=VARCHAR},#{item.lasteditor,jdbcType=VARCHAR},#{item.createtime,jdbcType=VARCHAR},#{item.lastedittime,jdbcType=VARCHAR}
+			) 
+  </insert>
+    
+   <!-- 更新单个用户 -->
+   <update id="updateOperator" parameterType="java.util.HashMap">
+		update operator 
+		<set>
+            <if test="id != null">
+                ID=#{id},
+            </if>
+            <if test="usertype != null">
+                USERTYPE=#{usertype},
+            </if>
+            <if test="username != null">
+                USERNAME=#{username},
+            </if>
+            <if test="userpasswd != null and userpasswd != ''">
+                USERPASSWD=#{userpasswd},
+            </if>
+            <if test="memo != null">
+                MEMO=#{memo},
+            </if>
+            <if test="logonnum != null">
+                LOGONNUM=#{logonnum},
+            </if>
+            <if test="lastlogontime != null">
+                LASTLOGONTIME=#{lastlogontime},
+            </if>
+            <if test="userstatus != null">
+                USERSTATUS=#{userstatus},
+            </if>
+            <if test="creator != null">
+                CREATOR=#{creator},
+            </if>
+            <if test="lasteditor != null">
+                LASTEDITOR=#{lasteditor},
+            </if>
+            <if test="createtime != null">
+                CREATETIME=#{createtime},
+            </if>
+            <if test="lastedittime != null">
+                LASTEDITTIME=#{lastedittime},
+            </if>
+        </set>
+		where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!-- 删除单个用户 -->
+  <delete id="deleteOperatorById" parameterType="java.lang.String">
+		delete from operator
+		where id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!-- 批量添加用户 -->
+  <insert id="batchInsertOperator" parameterType="java.util.List">
+		insert into operator
+		(id,usertype,username,userpasswd,memo,logonnum,lastlogontime,userstatus,creator,lasteditor,createtime,lastedittime)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},
+			#{item.usertype,jdbcType=VARCHAR},
+			#{item.username,jdbcType=VARCHAR},#{item.userpasswd,jdbcType=VARCHAR},#{item.memo,jdbcType=VARCHAR},
+			#{item.logonnum,jdbcType=NUMERIC},#{item.lastlogontime,jdbcType=VARCHAR},#{item.userstatus,jdbcType=VARCHAR},
+			#{item.creator,jdbcType=VARCHAR},#{item.lasteditor,jdbcType=VARCHAR},#{item.createtime,jdbcType=VARCHAR},#{item.lastedittime,jdbcType=VARCHAR}
+			)  
+    </foreach>
+  </insert>
+
+ <!-- 批量删除用户 -->
+ <delete id="batchDeleteOperator" parameterType="java.lang.String">   
+    <![CDATA[   
+       delete from operator where id in  
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.id}   
+    </foreach> 
+ </delete>
+ 	<select id="checkUserName" resultType="int" parameterType="String">
+ 		select count(id) from operator where username=#{username}
+ 	</select>
+ 
+       <!-- caiwenhong add  得到后台操作用户列表-->
+	 <select id="selectAll" resultMap="OperatorMap" parameterType="java.util.HashMap">
+	     select
+		<include refid="Base_Column_List" />
+		from operator
+		<include refid="whereClause"/>
+     </select>
+</mapper>

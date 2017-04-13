@@ -1,0 +1,175 @@
+package com.populook.system.action;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
+import org.apache.struts2.convention.annotation.Results;
+
+import com.populook.framework.action.PageAction;
+import com.populook.system.entity.Permission;
+import com.populook.system.entity.Role;
+import com.populook.system.service.RolePermissionService;
+import com.populook.system.service.RoleService;
+
+/**
+ * 角色
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Namespace("/system")
+@ParentPackage(value="default")
+@Results({@Result(name="roleTree", type="json",params={"includeProperties","id,roleope.*"})})
+public class RoleAction extends PageAction{
+	
+	private static final long serialVersionUID = -1272272230220764264L;
+
+	@Resource
+	private RoleService roleService;
+	
+	@Resource
+	private RolePermissionService rolePermissionService;
+	
+	private Role role;
+
+	private String roleid;
+	
+	private String isEnable;
+	
+	private String permissionids;
+	
+	private String dataRoleName;
+	
+	private String id;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getRoleid() {
+		return roleid;
+	}
+
+	public void setRoleid(String roleid) {
+		this.roleid = roleid;
+	}
+
+	public String getIsEnable() {
+		return isEnable;
+	}
+
+	public void setIsEnable(String isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	public String getPermissionids() {
+		return permissionids;
+	}
+
+	public void setPermissionids(String permissionids) {
+		this.permissionids = permissionids;
+	}
+
+	public String getDataRoleName() {
+		return dataRoleName;
+	}
+
+	public void setDataRoleName(String dataRoleName) {
+		this.dataRoleName = dataRoleName;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	/**
+	 * 跳转到角色菜单
+	 * @return void
+	 */
+	public String role() {
+//		List<Permission> permissionList = this.roleService.selectallPermission();
+//		ServletActionContext.getRequest().setAttribute("permissionList", permissionList);
+		return "role";
+	}
+	
+	/**
+	 * 查询角色并分页
+	 * @return void
+	 */
+	public String getRoleAll() throws Exception {
+		this.commonResult=this.roleService.selectPages(role,pager);
+		return COMMONJSON;
+	}
+	
+	/**
+	 * 查询角色并分页
+	 * @return void
+	 */
+	public String getRoleEnable() throws Exception {
+		if(role==null){
+			role=new Role();
+		}
+		role.setIsEnable("0");
+		this.commonResult=this.roleService.selectPages(role,pager);
+		return COMMONJSON;
+	}
+	
+	/**
+	 * 添加角色
+	 * @return void
+	 */
+	public String operatorRole() throws Exception {
+		
+		this.roleService.batchInsertRoleAll(dataRoleName,roleid,permissionids,isEnable);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+		
+	}
+	
+
+	/**
+	 * 赋值给树菜单和功能选项
+	 * @return void
+	 */
+	public String getroleTree() throws Exception {
+		
+		List<Permission> permissionList = this.roleService.getroleTree(roleid);
+		StringBuffer sb = new StringBuffer();
+		for(Permission permission: permissionList) {
+			sb.append(permission.getId()+",");
+		}
+		if(sb!=null) {
+			id = sb.toString();
+			id = id.substring(0,id.length()-1);
+		}
+		return "roleTree";
+	}
+	
+	
+	/**
+	 * 批量删除角色
+	 * @return void
+	 */
+	public String batchDeleteRole() throws Exception {
+		this.roleService.batchDelRole(id);
+		this.commonResult.setResult("true");
+		return COMMONJSON;
+	}
+	
+
+	
+	
+	
+	
+}

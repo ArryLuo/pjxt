@@ -1,0 +1,72 @@
+package com.populook.system.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.system.dao.RoleMenuDao;
+import com.populook.system.entity.RoleMenu;
+import com.populook.system.service.RoleMenuService;
+
+/**
+ * 菜单menu操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleMenuService")
+public class RoleMenuServiceImpl implements RoleMenuService{
+	
+	@Resource
+	private RoleMenuDao roleMenuDao;
+	
+	/**
+	 * 添加菜单menu
+	 * @param roleMenu 菜单menu
+	 * @return void
+	 */
+	public void insertRoleMenu(RoleMenu roleMenu) {
+		this.roleMenuDao.insertRoleMenu(roleMenu);
+	}
+	
+	/**
+	 * 删除角色menu
+	 * @param id 菜单menuID
+	 * @return void
+	 */
+	public void deleteRoleMenuById(String role_id) {
+		this.roleMenuDao.deleteRoleMenuById(role_id);
+	}
+	
+	/**
+	 * 批量添加角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	public void batchInsertRoleMenu(List<RoleMenu> list) {
+		this.roleMenuDao.batchInsertRoleMenu(list);
+	}
+	
+	/**
+	 * 批量更新角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	public void batchUpdateRoleMenu(List<RoleMenu> list) {
+		this.roleMenuDao.batchUpdateRoleMenu(list);
+	}
+	
+	/**
+	 * 批量删除角色menu
+	 * @param List<RoleMenu> 角色menu集合
+	 * @return void
+	 */
+	public void batchDeleteByroleid(List<RoleMenu> list) {
+		this.roleMenuDao.batchDeleteByroleid(list);
+	}
+	
+	
+	
+
+}

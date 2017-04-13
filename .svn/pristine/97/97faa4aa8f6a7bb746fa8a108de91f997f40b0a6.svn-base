@@ -1,0 +1,146 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <%@ include file="/common/taglibs.jsp"%>
+    <title>管理</title>
+    <script type="text/javascript">
+    	$(function () {
+    	    var $datatab = $("#datatab");   //表格jquery对戏那个
+    	    var $dlg = $("#dlg");           //新增和修改的对话框jquery对象
+    	    var $fm = $("#fm");             //新增和修改中的表单jquery对象
+    	    
+    	    init()
+    	     
+    	    function search(){
+    			loadDataGrid({
+    				datagridObj : $datatab,
+    				searchFormObj : $("#searchForm"),
+    				url : path + "/transportation/carterminal!selectPage.action",
+    				original : {
+    					toolbar : "#toolbar"
+    				}
+    			});
+    	    }
+    	    
+    	    //查询
+    		$("#tb_search").click(function() {
+    			search();
+    		});
+    		
+    	    //初始化表格
+    	    search();
+
+    	    //增加
+    	    $("#toolbar .tadd").click(function () {
+    	        addItem({
+    	            obj_dialog: $dlg,
+    	            obj_form: $fm,
+    	            title: "新增"
+    	        });
+    	    });
+
+    	    //修改
+    	    $("#toolbar .tmodify").click(function () {
+    	        modifyItem({
+    	            obj_datagrid: $datatab,
+    	            obj_dialog: $dlg,
+    	            obj_form: $fm,
+    	            title: "修改",
+    	            formname:"carterminal"
+    	        });
+    	        
+    	    });
+
+    	    //删除
+    	    $("#toolbar .tremove").click(function () {
+    	        deleteItem({
+    	            obj_datagrid: $datatab,
+    	            title: "删除",
+    	            url_delete: path+"/transportation/carterminal!batchDelete.action",
+    	            url_reload: path+"/transportation/carterminal!selectPage.action"
+    	        });
+    	    });
+
+    	    //保存数据
+    	    $("#dlg-buttons .save").click(function () {
+    	    	saveItem({
+    				obj_datagrid : $datatab,
+    				obj_dialog : $dlg,
+    				obj_form : $fm,
+    				url_add : path + "/transportation/carterminal!save.action",
+    				url_reload : path + "/transportation/carterminal!selectPage.action"
+    			});
+    	    	 
+    	    });
+
+    	    //关闭对话框
+    	    $("#dlg-buttons .closedlg").click(function () {
+    	        //关闭对话框
+    	        $dlg.dialog("close");
+    	    });
+
+    	}); 
+    	
+    	function init() {
+    		 $('#datatab').datagrid({
+     	    	columns:[[
+     	    	    {field:'terminalno',title:'终端号',width:100},
+     	    	    {field:'number',title:'车牌号',width:100},
+     	    		{field:'1',title:'实时视屏', width:120,
+     	    			formatter: function(value,row,index){
+     	    				var cc=row;
+     	    				return  "<a href='javascript:void(0)' onclick=aa('"+cc.id+"','"+cc.terminalno+"');>视频播放</a>";
+     	    			}
+     	    		},
+     	    	    {field:'2',title:'历史数据', width:120,
+     	    			formatter: function(value,row,index){
+     	    				return  "<a href='"+path+"/transportation/carshot!showHistoryPage.action'>历史查询</a>";
+     	    			}
+     	    		}
+     	    	]]
+     	    });
+        };
+       
+       //实时视频
+   	   function aa(obj1,obj2) {
+	        $.ajax({
+	    	    url:'http://aaceshi.aabang.me/Tachograph/push/pushMsgToSingleDevice.do',
+	    	    type:'POST', //GET
+	    	    async:true,    //或false,是否异步
+	    	    data:{id:obj1,type:"rstpUrl",channelId:obj2},
+	    	    timeout:5000,    //超时时间
+	    	    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text	  
+	    	    success:function(data){
+		    	     if(data.success){
+		    	    		window.location.href=path+'/transportation/carterminal!video.action?id='+data.src;		    	    	  
+	    	    	}else{
+	    	    		alert("实时视频播放失败！！");
+	    	    	};	       
+	    	     	    	   
+	    	   }
+	        });  	   
+       }; 
+    </script>    
+</head>
+<body class="pl20" style="padding-top: 5px;">
+
+<div class="contant">
+	 <div class="mapleft">
+        <iframe src="http://aaceshi.aabang.me:8080/manager.html" width="100%" height="600px"></iframe>
+      </div>
+	<div class="maplistright"> 
+		<table id="datatab" class="easyui-datagrid">
+		  
+		</table>      
+	</div>
+    <div id="panimage" class="easyui-window" title="全景大图" data-options="modal:true,closed:true,iconCls:'icon-save'" style="width:1000px;height:640px;padding:10px;">
+       <div class="pic-image">
+        <!-- <img src="car/pic.jpg" /> -->
+       </div>
+    </div>       
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+package com.populook.system.entity;
+
+public class Menu implements java.io.Serializable {
+
+	private static final long serialVersionUID=1L;
+	
+	private String id;
+	
+	private String menuName;
+	
+	private String menuUrl;
+	
+	private String parentid;
+	
+	private String icolcss;
+	
+	private String orders;
+	
+
+	public Menu() {
+		
+	}
+
+	public String getOrders() {
+		return orders;
+	}
+
+	public void setOrders(String orders) {
+		this.orders = orders;
+	}
+
+	public Menu(String id, String menuName, String menuUrl, String parentid,String icolcss) {
+		super();
+		this.id = id;
+		this.menuName = menuName;
+		this.menuUrl = menuUrl;
+		this.parentid = parentid;
+		this.icolcss = icolcss;
+		this.orders = orders;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getMenuName() {
+		return menuName;
+	}
+
+	public void setMenuName(String menuName) {
+		this.menuName = menuName;
+	}
+
+	public String getMenuUrl() {
+		return menuUrl;
+	}
+
+	public void setMenuUrl(String menuUrl) {
+		this.menuUrl = menuUrl;
+	}
+
+	public String getParentid() {
+		return parentid;
+	}
+
+	public void setParentid(String parentid) {
+		this.parentid = parentid;
+	}
+	
+	public String getIcolcss() {
+		return icolcss;
+	}
+
+	public void setIcolcss(String icolcss) {
+		this.icolcss = icolcss;
+	}
+}

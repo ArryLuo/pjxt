@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	<typeAliases> 
+		<typeAlias type="com.populook.system.entity.Permission" alias="Permission"/>
+		<typeAlias type="com.populook.system.entity.Operator" alias="Operator"/>
+		<typeAlias type="com.populook.system.entity.OperatorRole" alias="OperatorRole"/>
+		<typeAlias type="com.populook.system.entity.Role" alias="Role"/>
+		<typeAlias type="com.populook.system.entity.RolePermission" alias="RolePermission"/>
+		<typeAlias type="com.populook.system.entity.Menu" alias="Menu"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/populook/framework/entity/mapper/CommonMapper.xml"/>
+		<mapper resource="mapper/PermissionMapper.xml"/>
+		<mapper resource="mapper/OperatorMapper.xml"/>
+		<mapper resource="mapper/OperatorRoleMapper.xml"/>
+		<mapper resource="mapper/RoleMapper.xml"/>
+		<mapper resource="mapper/RolePermissionMapper.xml"/>
+        <mapper resource="mapper/MenuMapper.xml"/>
+		<mapper resource="mapper/myOperatorMapper.xml"/>
+	</mappers>
+</configuration>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RoleopeMapper">
+
+	<resultMap type="Roleope" id="RoleopeMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="allitem" property="allitem" jdbcType="VARCHAR" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<result column="menu_id" property="menuId" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+
+
+	<!-- 添加功能权限 -->
+	<insert id="insertRoleope" parameterType="Roleope">
+		insert into
+		ROLEOPE(id,selectitem,additem,updateitem,deleteitem) values(
+		#{id,jdbcType=VARCHAR},#{selectitem,jdbcType=VARCHAR},#{additem,jdbcType=VARCHAR},#{updateitem,jdbcType=VARCHAR},#{deleteitem,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量添加功能权限 -->
+	<insert id="batchInsertRoleope" parameterType="java.util.List">
+		insert into
+		ROLEOPE(id,allitem,role_id,menu_id)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id,jdbcType=VARCHAR},#{item.allitem,jdbcType=VARCHAR},#{item.roleId,jdbcType=VARCHAR},
+			#{item.menuId,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+
+
+	<!-- 删除功能权限 -->
+	<delete id="deleteRoleopeById" parameterType="java.lang.String">
+		delete from ROLEOPE
+		where role_id = #{role_id,jdbcType=VARCHAR}
+	</delete>
+
+
+   
+	
+	 <!-- 批量删除功能权限-->
+ <delete id="batchDeleteopeByid" parameterType="java.util.List">   
+    <![CDATA[   
+       delete from ROLEOPE where role_id in   
+    ]]>
+    <foreach collection="list" item="model" open="(" separator="," close=")">
+			#{model.roleId}   
+    </foreach>
+ </delete>
+
+
+
+
+
+
+
+</mapper>

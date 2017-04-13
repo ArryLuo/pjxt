@@ -1,0 +1,78 @@
+package com.populook.system.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dto.CommonResult;
+import com.populook.framework.dto.Pagination;
+import com.populook.system.dao.MenuDao;
+import com.populook.system.entity.Menu;
+import com.populook.system.service.MenuService;
+/**
+ * 菜单操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("menuService")
+public class MenuServiceImpl implements MenuService{
+	
+	@Resource
+	private MenuDao menuDao;
+	
+	/**
+	 * 添加菜单
+	 * @param menu 菜单
+	 * @return void
+	 */
+	public void insertMenu(Menu menu) {
+		this.menuDao.insertMenu(menu);
+	}
+	
+	/**
+	 * 修改菜单
+	 * @param menu 菜单
+	 * @return void
+	 */
+	public void updateMenu(Menu menu) {
+		this.menuDao.updateMenu(menu);
+	}
+	
+	/**
+	 * 删除菜单
+	 * @param id 菜单ID
+	 * @return void
+	 */
+	public void deleteMenuById(String id) {
+		this.menuDao.deleteMenuById(id);
+	}
+	
+	/**
+	 * 查询菜单列表
+	 * @return void
+	 */
+	public CommonResult selectMenu(Menu menu,Pagination pager) {
+		return this.menuDao.selectMenuPage(menu, pager);
+	}
+	
+	/**
+	 * 查询总条数
+	 * @param param
+	 * @return int
+	 */
+	public int selectMenuCount(Menu menu) {
+		return this.menuDao.selectMenuCount(menu);
+	}
+	
+	/**
+	 * 批量删除菜单
+	 * @param list 菜单ID集合
+	 * @return void
+	 */
+	public void batchDeleteMenu(List<Menu> list) {
+		this.menuDao.batchDeleteMenu(list);
+	}
+}

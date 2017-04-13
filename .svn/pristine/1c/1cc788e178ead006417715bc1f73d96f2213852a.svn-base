@@ -1,0 +1,91 @@
+package com.populook.system.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Component;
+
+import com.populook.system.dao.OperatorRoleDao;
+import com.populook.system.entity.OperatorRole;
+import com.populook.system.service.OperatorRoleService;
+
+/**
+ * 角色关联操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("operatorRoleService")
+public class OperatorRoleServiceImpl implements OperatorRoleService {
+	
+	@Resource
+	private OperatorRoleDao operatorRoleDao;
+	
+	/**
+	 * 添加角色关联
+	 * @param operatorRole 角色关联
+	 * @return void
+	 */
+	public void insertOperatorRole(OperatorRole operatorRole) {
+		this.operatorRoleDao.insertOperatorRole(operatorRole);
+	}
+	
+	/**
+	 * 删除角色关联
+	 * @param operator_id 系统用户ID
+	 * @return void
+	 */
+	public void deleteOperatorRoleById(String operator_id) {
+		this.operatorRoleDao.deleteOperatorRoleById(operator_id);
+	}
+    
+	/**
+	 * 批量删除系统角色关联
+	 * @param list 角色关联集合
+	 * @return void
+	 */
+	public void batchDeleteOpeRole(List<OperatorRole> list) {
+		this.operatorRoleDao.batchDeleteOpeRole(list);
+	}
+	
+	/**
+	 * 批量添加系统角色关联
+	 * @param list 角色关联集合
+	 * @return void
+	 */
+	public void batchInsertOperatorRole(List<OperatorRole> list) {
+		this.operatorRoleDao.batchInsertOperatorRole(list);
+	}
+	
+	/**
+	 * 批量操作用户
+	 * @param useridArr 用户ID数组
+	 * @return void
+	 */
+	public void delOperatorRoleAll(String[] useridArr,String[] roleid) {
+        List<OperatorRole> operatorDeleteRole = new ArrayList<OperatorRole>();
+		List<OperatorRole> operatorAddRole = new ArrayList<OperatorRole>();
+		for(int i =0 ; i < useridArr.length; i++) {
+			OperatorRole deleteRole = new OperatorRole();
+			deleteRole.setOperatorId(useridArr[i]);
+			operatorDeleteRole.add(deleteRole);
+			for (int j = 0; j < roleid.length; j++) {
+				OperatorRole addRole = new OperatorRole();
+				addRole.setId(UUID.randomUUID().toString().replace("-", ""));
+				addRole.setRoleId(roleid[j]);
+				addRole.setOperatorId(useridArr[i]);
+				operatorAddRole.add(addRole);
+			}
+		}
+		this.operatorRoleDao.batchDeleteOpeRole(operatorDeleteRole);
+		this.operatorRoleDao.batchInsertOperatorRole(operatorAddRole);
+		
+	}
+
+	@Override
+	public List<OperatorRole> findOperatorRoleList() {
+		return operatorRoleDao.findOperatorRoleList();
+	}
+}

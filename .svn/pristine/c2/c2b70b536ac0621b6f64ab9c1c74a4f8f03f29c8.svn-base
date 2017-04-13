@@ -1,0 +1,27 @@
+package com.populook.system.service;
+
+import java.util.List;
+
+import com.populook.system.entity.RolePermission;
+
+/**
+ * 角色permission操作Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RolePermissionService {
+	//添加角色permission
+	public void insertRolePermission(RolePermission rolePermission);
+	
+	//删除角色permission
+	public void deleteRolePermissionById(String role_id);
+	
+	//批量添加角色permission
+	public void batchInsertRolePermission(List<RolePermission> list);
+	
+	//批量添加角色permission
+	public void batchUpdateRolePermission(List<RolePermission> list);
+	
+	//批量删除角色ID
+	public void batchDeleteByroleid(List<RolePermission> list);
+}

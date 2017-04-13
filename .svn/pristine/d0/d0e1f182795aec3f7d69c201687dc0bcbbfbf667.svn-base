@@ -1,0 +1,80 @@
+package com.populook.system.entity;
+
+public class OperatorRole implements java.io.Serializable{
+	
+	public OperatorRole() {
+		super();
+	}
+
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	
+	private String operatorId;
+	
+	private String roleId;
+	
+	private String roleName;
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the operatorId
+	 */
+	public String getOperatorId() {
+		return operatorId;
+	}
+
+	/**
+	 * @param operatorId the operatorId to set
+	 */
+	public void setOperatorId(String operatorId) {
+		this.operatorId = operatorId;
+	}
+
+	/**
+	 * @return the roleId
+	 */
+	public String getRoleId() {
+		return roleId;
+	}
+
+	/**
+	 * @param roleId the roleId to set
+	 */
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
+	}
+
+	public OperatorRole(String id, String operatorId, String roleId,
+			String roleName) {
+		super();
+		this.id = id;
+		this.operatorId = operatorId;
+		this.roleId = roleId;
+		this.roleName = roleName;
+	}
+
+
+	
+}

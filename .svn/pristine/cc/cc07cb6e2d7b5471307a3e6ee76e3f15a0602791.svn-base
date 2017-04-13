@@ -1,0 +1,159 @@
+package com.populook.system.entity;
+
+import java.util.Date;
+
+public class Role implements java.io.Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private String id;
+	
+	private String dataRoleName;
+	
+	private String isEnable;
+	
+	private String creator;
+	
+	private String createTime;
+	
+	private String updator;
+	
+	private String updateTime;
+	
+	private String creatorName;
+	
+	private String updatorName;
+	
+	
+
+	public String getCreatorName() {
+		return creatorName;
+	}
+
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
+	}
+
+	public String getUpdatorName() {
+		return updatorName;
+	}
+
+	public void setUpdatorName(String updatorName) {
+		this.updatorName = updatorName;
+	}
+
+	public Role() {
+		super();
+	}
+
+	public Role(String id, String dataRoleName, String isEnable,
+			String creator, String createTime, String updator, String updateTime) {
+		super();
+		this.id = id;
+		this.dataRoleName = dataRoleName;
+		this.isEnable = isEnable;
+		this.creator = creator;
+		this.createTime = createTime;
+		this.updator = updator;
+		this.updateTime = updateTime;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the dataRoleName
+	 */
+	public String getDataRoleName() {
+		return dataRoleName;
+	}
+
+	/**
+	 * @param dataRoleName the dataRoleName to set
+	 */
+	public void setDataRoleName(String dataRoleName) {
+		this.dataRoleName = dataRoleName;
+	}
+
+	/**
+	 * @return the isEnable
+	 */
+	public String getIsEnable() {
+		return isEnable;
+	}
+
+	/**
+	 * @param isEnable the isEnable to set
+	 */
+	public void setIsEnable(String isEnable) {
+		this.isEnable = isEnable;
+	}
+
+	/**
+	 * @return the creator
+	 */
+	public String getCreator() {
+		return creator;
+	}
+
+	/**
+	 * @param creator the creator to set
+	 */
+	public void setCreator(String creator) {
+		this.creator = creator;
+	}
+
+	/**
+	 * @return the createTime
+	 */
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	/**
+	 * @param createTime the createTime to set
+	 */
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	/**
+	 * @return the updator
+	 */
+	public String getUpdator() {
+		return updator;
+	}
+
+	/**
+	 * @param updator the updator to set
+	 */
+	public void setUpdator(String updator) {
+		this.updator = updator;
+	}
+
+	/**
+	 * @return the updateTime
+	 */
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	/**
+	 * @param updateTime the updateTime to set
+	 */
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+	
+}

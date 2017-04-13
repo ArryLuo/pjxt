@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%@ include file="/common/taglibs.jsp"%>
+<title>在线考试系统</title>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/main/main.js"></script>
+</head>
+<body class="easyui-layout">
+
+<div data-options="region:'north',border:false"  class="gz_north">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="top" >
+	  <tr>
+	   <%--  <td height="65px" style="padding-left:20px;"> 
+	    <img src="${pageContext.request.contextPath}/images/index/logo.png" height="44"></td> --%>
+	    <td height="65px" align="right">
+	    <span class="top_user">${username}，您好！${userpasswd}</span>
+	    <a id="logout" href="javascript:void(0)" class="top_quit">安全退出</a> 
+	    <a id="paswd" href="javascript:void(0)" class="top_xgmm">修改密码</a>
+	    </td>
+	  </tr>
+	</table>
+</div>
+<div data-options="region:'west',title:'导航菜单',headerCls:'dhtc_title'"  class="main_west" id="div_menuWapper">
+	<div id="leftMenu"></div>
+</div>
+<div data-options="region:'center'">
+    <div id="tabs" class="easyui-tabs" data-options="tabHeight:'45px'" fit="true" border="false">     
+        <div title="欢迎使用" class="gz_center"> </div>
+    </div>
+</div>
+<div id="closemenu" class="easyui-menu" style="width:150px;">
+    <div id="refresh">刷新</div>
+    <div class="menu-sep"></div>
+    <div id="close">关闭</div>
+    <div id="closeall">全部关闭</div>
+    <div id="closeother">除此之外全部关闭</div>
+    <div class="menu-sep"></div>
+    <div id="closeright">当前页右侧全部关闭</div>
+    <div id="closeleft">当前页左侧全部关闭</div>
+</div>
+<div id="updatepwd" class="easyui-dialog" closed="true" buttons="#pwd-buttons" style="width: 400px;height:250px">	
+	<form id="pwdft" method="post">
+		<p>
+			<label>旧密码：</label>
+			<input name="operators.id" type="hidden" id="userid" value="${id}"/>
+			<input id="userpwdOld" name="operators.oldPassword" type="password" class="easyui-validatebox" required="true" validType="length[1,30]" />
+		</p>
+		<p>
+			<label>新密码：</label>
+			<input id="userpwd" name="operators.userpasswd" type="password" class="easyui-validatebox" required="true" validType="length[1,30]" />
+		</p>
+		<p>
+			<label>确认新密码</label>
+			<input id="reuserpwd" name="operators.renewPassword" type="password" class="easyui-validatebox" required="true" validType="length[1,30]" />
+		</p>
+	</form>
+</div>	
+<div id="pwd-buttons">
+	<a href="javascript:void(0)" class="easyui-linkbutton  btn btn-primary saveuser" iconCls="icon-ok">保存</a> 
+	<a href="javascript:void(0)" class="easyui-linkbutton  btn btn-default closedlg" iconCls="icon-cancel">关闭</a>
+</div>	
+</body>
+</html>

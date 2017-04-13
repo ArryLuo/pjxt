@@ -1,0 +1,26 @@
+package com.populook.system.service;
+
+import java.util.List;
+
+import com.populook.system.entity.Roleope;
+
+
+/**
+ * 功能权限Service
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface RoleOpeService {
+	 //添加功能权限
+	public void insertRoleOpe(Roleope roleope);
+	
+	
+	//批量添加功能权限
+	public void batchInsertRoleOpe(List<Roleope> list);
+	
+	//批量更新功能权限
+	public void batchUpdateRoleOpe(List<Roleope> list);
+	
+	//批量删除功能权限
+	public void batchDeleteopeByid(List<Roleope> list);
+}

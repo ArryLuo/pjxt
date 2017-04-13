@@ -1,0 +1,96 @@
+package com.populook.system.dao.impl;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Component;
+
+import com.populook.framework.dao.impl.BaseDaoSupport;
+import com.populook.system.dao.RoleOpeDao;
+import com.populook.system.entity.Roleope;
+
+/**
+ * 功能权限DAO
+ * 
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+@Component("roleOpeDao")
+public class RoleOpeDaoImpl extends BaseDaoSupport implements RoleOpeDao {
+
+	@Resource
+	private SqlSessionFactory sqlSessionFactory;
+
+	@PostConstruct
+	public void initSqlMapClient() {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
+
+	protected SqlSessionFactory getSqlSessionFactory() {
+		return this.sqlSessionFactory;
+	}
+
+	/**
+	 * 添加功能权限
+	 * 
+	 * @param Roleope
+	 *            功能权限
+	 * @return void
+	 */
+	@Override
+	public void insertRoleOpe(Roleope roleope) {
+		getSqlSession().insert("RoleopeMapper.insertRoleope", roleope);
+	}
+
+	/**
+	 * 删除功能权限
+	 * 
+	 * @param id
+	 *            功能权限主键ID
+	 * @return void
+	 */
+	@Override
+	public void deleteRoleOpeById(String role_id) {
+		getSqlSession().delete("RoleopeMapper.deleteRoleopeById", role_id);
+	}
+
+	/**
+	 * 批量添加功能权限
+	 * 
+	 * @param list
+	 *            功能权限集合
+	 * @return void
+	 */
+	@Override
+	public void batchInsertRoleOpe(List<Roleope> list) {
+		getSqlSession().insert("RoleopeMapper.batchInsertRoleope", list);
+	}
+
+	/**
+	 * 批量更新功能权限
+	 * 
+	 * @param list
+	 *            功能权限集合
+	 * @return void
+	 */
+	@Override
+	public void batchUpdateRoleOpe(List<Roleope> list) {
+		getSqlSession().insert("RoleopeMapper.batchUpdateRoleop", list);
+	}
+
+	/**
+	 * 批量删除功能权限
+	 * 
+	 * @param list
+	 *            功能权限集合
+	 * @return void
+	 */
+	@Override
+	public void batchDeleteopeByid(List<Roleope> list) {
+		getSqlSession().delete("RoleopeMapper.batchDeleteopeByid", list);
+	}
+
+}

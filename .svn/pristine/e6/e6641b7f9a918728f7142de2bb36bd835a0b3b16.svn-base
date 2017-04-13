@@ -1,0 +1,30 @@
+package com.populook.system.dao;
+
+import java.util.List;
+
+import com.populook.framework.dao.BaseDao;
+import com.populook.system.entity.OperatorRole;
+
+/**
+ * 角色关联操作DAO
+ * @author zengbiao
+ * @date 2014-06-16
+ */
+public interface OperatorRoleDao extends BaseDao {
+	
+	//添加系统角色关联
+	public void insertOperatorRole(OperatorRole operatorRole);
+	
+	//删除系统角色关联
+	public void deleteOperatorRoleById(String operator_id);
+	
+	//批量删除角色关联
+	public void batchDeleteOpeRole(List<OperatorRole> list);
+	
+	//批量添加角色关联
+	public void batchInsertOperatorRole(List<OperatorRole> list);
+	
+	//获取所有的功能角色集合
+	public List<OperatorRole> findOperatorRoleList(); 
+	
+}

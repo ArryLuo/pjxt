@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PermissionMapper">
+
+	<resultMap type="Permission" id="PermissionMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="permission_name" property="permissionName"
+			jdbcType="VARCHAR" />
+		<result column="permission_url" property="permissionUrl"
+			jdbcType="VARCHAR" />
+		<result column="parentid" property="parentid" jdbcType="VARCHAR" />
+		<result column="icolcss" property="icolcss" jdbcType="VARCHAR" />
+		<result column="permission_type" property="permissionType"
+			jdbcType="VARCHAR" />
+		<result column="button_id" property="buttonId" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,permission_name,permission_url,parentid,icolcss,orders,permission_type,button_id
+	</sql>
+
+	<!-- where clause -->
+	<sql id="whereClause">
+		<where>
+			<if test="id != null and id != ''">
+				id = #{id}
+			</if>
+			<if test="parentid != null and parentid != ''">
+				AND parentid=#{parentid}
+			</if>
+		</where>
+	</sql>
+
+	<!-- select clause -->
+	<sql id="selectClause">
+		select
+		<include refid="Base_Column_List" />
+		from PERMISSION
+		<include refid="whereClause" />
+	</sql>
+
+	<!-- select list -->
+	<select id="selectList" parameterType="hashmap" resultMap="PermissionMap">
+		<include refid="selectClause" />
+	</select>
+
+	<!-- select one by primary key -->
+	<select id="selectOne" parameterType="string" resultMap="PermissionMap">
+		select
+		<include refid="Base_Column_List" />
+		from PERMISSION where id=#{id}
+	</select>
+
+	<!-- 查询所有菜单并分页 -->
+	<select id="selectForPagination" resultMap="PermissionMap"
+		parameterType="java.util.HashMap">
+		<include refid="selectClause" />
+		<include refid="CommonMapper.mysqlPager" />
+	</select>
+
+	<!-- select total count -->
+	<select id="selectCount" parameterType="hashmap" resultType="int">
+		select count(*) from PERMISSION
+		<include refid="whereClause" />
+	</select>
+
+	<!-- 添加菜单 -->
+	<insert id="insertPermission" parameterType="Permission">
+		insert into
+		PERMISSION(id,permission_name,permission_url,parentid,icolcss,permission_type,button_id,orders)
+		values(
+		#{id,jdbcType=VARCHAR},#{permissionName,jdbcType=VARCHAR},#{permissionUrl,jdbcType=VARCHAR},
+		#{parentid,jdbcType=VARCHAR},#{icolcss,jdbcType=VARCHAR},#{permissionType,jdbcType=VARCHAR},#{buttonId,jdbcType=VARCHAR},#{orders,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 更新菜单 -->
+	<update id="updatePermission" parameterType="Permission">
+		update PERMISSION
+		set
+		permission_name=#{permissionName,jdbcType=VARCHAR},permission_url=#{permissionUrl,jdbcType=VARCHAR},
+		parentid=#{parentid,jdbcType=VARCHAR},icolcss=#{icolcss,jdbcType=VARCHAR},orders=#{orders,jdbcType=VARCHAR},
+		permission_type=#{permissionType,jdbcType=VARCHAR},button_id=#{buttonId,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+
+
+	<!-- 批量删除菜单 -->
+	<delete id="batchDeletePermission" parameterType="String">   
+    <![CDATA[   
+       delete from PERMISSION where id in  
+    ]]>
+		<foreach collection="list" item="model" open="(" separator=","
+			close=")">
+			#{model.id}
+		</foreach>
+	</delete>
+
+
+	<!-- 根据用户ID查询对应的权限菜单 -->
+	<select id="selectPermissionByUserId" resultMap="PermissionMap"
+		parameterType="java.lang.String">
+	select distinct p.id,p.parentid,
+		p.permission_name,p.permission_url,p.permission_type,p.button_id ,p.icolcss from OPERATOR
+		op,OPERATORROLE oprole,ROLE role,ROLEPERMISSION rp,PERMISSION p
+		where op.id = oprole.operator_id and role.id = oprole.role_id   and  role.is_enable='0'  and  p.id =
+		rp.permission_id and  rp.role_id = role.id and op.id =
+		#{operatorID} 
+		<if test="permissionType != null and permissionType != ''">
+		and p.permission_type=#{permissionType}
+		</if>
+		order by (p.orders+0) asc
+	</select>
+
+      <!--查询所有的用户站点  -->
+  <select id="selectPlatFormSiteIdsByUserId" parameterType="java.util.Map"  resultType="java.lang.String">
+  select DISTINCT site_id  from datarolesite  dt left join datarole rl on dt.datarole_id=rl.id
+     <where>
+       <if test="userId!=null and userId!=''">
+       dt.datarole_id in (select datarole_id from operatordatarole where operator_id=#{userId})
+        </if>
+        and rl.is_enable='0'
+     </where>
+    order by dt.create_time
+  </select>
+    <!--根据用户所属组织查询站点集合  -->
+      <select id="selectPlatFormSiteIdsByOrgName" parameterType="java.lang.String"  resultType="java.lang.String"> 
+      select  DISTINCT  platform_site_id  from platformorganization  where organizationid =(select organizationid from operator where id=#{userId})
+      </select>
+</mapper>
